@@ -269,6 +269,107 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Windows Service in Python</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        import os
+                        import time
+                        import servicemanager
+                        import win32service
+                        import win32serviceutil
+                        import win32event
+                        from datetime import datetime
+
+                        class HourlyFileService(win32serviceutil.ServiceFramework):
+                            _svc_name_ = "HourlyFileService"
+                            _svc_display_name_ = "Hourly File Creation Service"
+                            _svc_description_ = "Tworzy nowy plik z timestampem co godzinę."
+
+                            def __init__(self, args):
+                                super().__init__(args)
+                                # Zdarzenie do obsługi zatrzymania usługi:
+                                self.stop_event = win32event.CreateEvent(None, 0, 0, None)
+                                self.running = True
+
+                            def SvcStop(self):
+                                # Wywoływane przy zatrzymaniu usługi
+                                self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
+                                self.running = False
+                                win32event.SetEvent(self.stop_event)
+
+                            def SvcDoRun(self):
+                                servicemanager.LogInfoMsg("HourlyFileService – start")
+                                # Pętla główna usługi
+                                while self.running:
+                                    try:
+                                        # Tworzenie pliku w katalogu usługi
+                                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                                        filename = f"plik_{timestamp}.txt"
+                                        # np. w katalogu C:\HourlyFiles
+                                        output_dir = r"C:\Notes\HourlyFiles"
+                                        os.makedirs(output_dir, exist_ok=True)
+                                        full_path = os.path.join(output_dir, filename)
+                                        with open(full_path, "w") as f:
+                                            f.write(f"Plik utworzony: {timestamp}\n")
+                                        servicemanager.LogInfoMsg(f"Utworzono plik: {full_path}")
+                                    except Exception as e:
+                                        servicemanager.LogErrorMsg(f"Błąd przy tworzeniu pliku: {e}")
+
+                                    # Czekaj do 3600 sekund lub do sygnału zatrzymania
+                                    win32event.WaitForSingleObject(self.stop_event, 3600 * 1000)
+
+                                servicemanager.LogInfoMsg("HourlyFileService – stop")
+
+                        if __name__ == '__main__':
+                            win32serviceutil.HandleCommandLine(HourlyFileService)
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Windows Service in Python</h2>
+            </div>
+            <div class="PlaceCodeHere">
+                <pre style="font-size: 40px;overflow: hidden;  " class="language-cmd">
+                    <code style="line-height: 40px !important;">
+                        python HourlyFileService.py install
+
+                        python HourlyFileService.py start
+
+                        python HourlyFileService.py stop
+                        python HourlyFileService.py remove
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section> 
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/25.png" alt="blog">
@@ -323,6 +424,194 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie kanałów ID z adresów</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        import os
+                        from googleapiclient.discovery import build
+
+                        def get_channel_id(api_key, url):
+                            youtube = build('youtube', 'v3', developerKey=api_key)
+                            if 'youtube.com/watch' in url:
+                                # Wyciągnij videoId z URL-a
+                                video_id = url.split('v=')[1].split('&')[0]
+                                response = youtube.videos().list(part='snippet', id=video_id).execute()
+                                return response['items'][0]['snippet']['channelId']
+
+                            elif 'youtube.com/channel/' in url:
+                                # Bezpośredni ID kanału
+                                return url.rstrip('/').split('/')[-1]
+
+                            elif ('youtube.com/c/' in url) or ('youtube.com/user/' in url) or ('youtube.com/@' in url):
+                                # Wyciągnij nazwę kanału i znajdź ID przez wyszukiwanie
+                                channel_name = url.rstrip('/').split('/')[-1]
+                                response = youtube.search().list(
+                                    part='id',
+                                    q=channel_name,
+                                    type='channel',
+                                    maxResults=1
+                                ).execute()
+                                return response['items'][0]['id']['channelId']
+
+                            else:
+                                raise ValueError("Nieprawidłowy URL YouTube")
+
+                        # Example usage
+                        api_key = os.getenv('YOUTUBE_API_KEY')   # Replace with your actual API key
+                        url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'  # Example video URL
+                        channel_id = get_channel_id(api_key, url)
+                        print(f"Channel ID: {channel_id}")
+
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie najnowszych filmików z YouTube API</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    import os
+                    from googleapiclient.discovery import build
+
+                    # Klucz API YouTube
+                    API_KEY = os.getenv('YOUTUBE_API_KEY')
+
+                    # Inicjalizacja klienta YouTube API
+                    youtube = build('youtube', 'v3', developerKey=API_KEY)
+
+                    def get_channel_id(api_key, url):
+                        youtube = build('youtube', 'v3', developerKey=api_key)
+
+                        if 'youtube.com/watch' in url:
+                            # Wyciągnij videoId z URL-a
+                            video_id = url.split('v=')[1].split('&')[0]
+                            response = youtube.videos().list(part='snippet', id=video_id).execute()
+                            return response['items'][0]['snippet']['channelId']
+
+                        elif 'youtube.com/channel/' in url:
+                            # Bezpośredni ID kanału
+                            return url.rstrip('/').split('/')[-1]
+
+                        elif ('youtube.com/c/' in url) or ('youtube.com/user/' in url) or ('youtube.com/@' in url):
+                            # Wyciągnij nazwę kanału i znajdź ID przez wyszukiwanie
+                            channel_name = url.rstrip('/').split('/')[-1]
+                            response = youtube.search().list(
+                                part='id',
+                                q=channel_name,
+                                type='channel',
+                                maxResults=1
+                            ).execute()
+                            return response['items'][0]['id']['channelId']
+
+                        else:
+                            raise ValueError("Nieprawidłowy URL YouTube")
+
+                    def get_latest_videos(channel_id, max_results=10):
+                        # Step 1: Get video IDs
+                        search_response = youtube.search().list(
+                            part='id',
+                            channelId=channel_id,
+                            maxResults=max_results,
+                            order='date',
+                            type='video'
+                        ).execute()
+
+                        video_ids = [item['id']['videoId'] for item in search_response.get('items', [])]
+
+                        # Step 2: Get full details for each video
+                        videos_response = youtube.videos().list(
+                            part='snippet',
+                            id=','.join(video_ids)
+                        ).execute()
+
+                        videos = []
+                        for item in videos_response.get('items', []):
+                            snippet = item['snippet']
+                            video_id = item['id']
+                            video_url = f"https://www.youtube.com/watch?v={video_id}"
+                            videos.append({
+                                'id': video_id,
+                                'url': video_url,
+                                'title': snippet['title'],
+                                'description': snippet['description'],
+                                'publishedAt': snippet['publishedAt'],
+                                'channelTitle': snippet['channelTitle']
+                            })
+
+                        return videos
+
+
+                    def display_videos(videos):
+                        for video in videos:
+                            print(f"Tytuł: {video['title']}")
+                            print(f"URL: {video['url']}")
+                            print(f"ID: {video['id']}")
+                            print(f"Opis: {video['description']}")
+                            print(f"Opublikowane: {video['publishedAt']}")
+                            print("\n---\n")
+
+
+                    if __name__ == '__main__':
+                        url = 'https://www.youtube.com/@nickchapsas'  # <- Zmień na dowolny URL kanału lub filmiku
+                        try:
+                            channel_id = get_channel_id(API_KEY, url)
+                            print(f"Channel ID: {channel_id}")
+                            latest_videos = get_latest_videos(channel_id)
+                            display_videos(latest_videos)
+                        except Exception as e:
+                            print(f"Błąd: {e}")
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
         <!--pOBIERANIE LISTY YOUTUBE ID-->
     <!-- <section class="slide" style="background-color:black">
         <figure>
@@ -349,6 +638,74 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie filmików YouTube</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+                        #from pytube import YouTube
+                        from pytubefix import YouTube
+                        from pytubefix.cli import on_progress
+
+                        # Replace with your desired YouTube video URL
+                        video_url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+
+                        try:
+                            yt = YouTube(video_url,on_progress_callback = on_progress)
+
+                            # Get the highest resolution progressive stream (video + audio)
+                            stream = yt.streams.get_highest_resolution()
+
+                            print(f"Downloading: {yt.title}")
+                            stream.download(output_path= r"C:\Notes\PyYouTubeTest")  # Saves to current directory
+                            print("Download complete!")
+
+                        except Exception as e:
+                            print("Error:", e)
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie filmików YouTube yt_dlp</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+                        import yt_dlp
+
+                        # Replace with your desired YouTube URL
+                        video_url = 'https://www.youtube.com/watch?v=2lAe1cqCOXo'
+
+                        # Download options
+                        ydl_opts = {
+                            'format': 'bestvideo+bestaudio/best',
+                            'outtmpl': r"C:\Notes\ytDlpTest\%(title)s.%(ext)s",
+                            'noplaylist': True,        # Don't download playlists
+                            'quiet': False,            # Show progress
+                            'no_warnings': True,       # Suppress warnings
+                            'ignoreerrors': True,      # Skip videos that cause errors
+                        }
+
+                        # Downloading the video
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                            ydl.download([video_url])
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/38.png" alt="blog">
@@ -386,6 +743,144 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">whisper</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+                        import whisper
+
+                        def transcribe_video(video_path, output_path):
+                            try:
+                                model = whisper.load_model("base")
+                                result = model.transcribe(video_path)
+
+                                if not result or "text" not in result:
+                                    print("Transkrypcja nie powiodła się.")
+                                    return
+
+                                with open(output_path, "w", encoding="utf-8") as f:
+                                    f.write(result["text"])
+
+                                print("Transkrypcja została zapisana pomyślnie.")
+                            except Exception as e:
+                                print(f"Wystąpił błąd: {e}")
+
+                        if __name__ == "__main__":
+                            video_path  = r"D:\WDI_GRAPHQL.mp4"
+                            output_path = r"D:\WDI_GRAPHQL.txt"
+                            transcribe_video(video_path, output_path)
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">whisper</h2>
+            </div>
+            <div class="PlaceCodeHere ">
+                <pre style="font-size: 40px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 40px !important;">
+                            result = model.transcribe(video_path, fp16=False)
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">whisper</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        import whisper
+                        import threading
+                        import time
+
+                        def transcribe_video(video_path, output_path):
+                            try:
+                                # Załaduj model Whisper
+                                model = whisper.load_model("base")
+
+                                # Przygotuj mechanizm odliczania czasu
+                                stop_event = threading.Event()
+                                def timer():
+                                    start_time = time.time()
+                                    animation = "|/-\\"
+                                    idx = 0
+                                    while not stop_event.is_set():
+                                        elapsed = int(time.time() - start_time)
+                                        print(f"\rCzas trwania transkrypcji: {elapsed} sek {animation[idx % len(animation)]}", end="", flush=True)
+                                        idx += 1
+                                        time.sleep(1)
+                                    # na koniec nowe wiersz, żeby nie zostać na tej samej linii
+                                    print()
+
+                                # Uruchom timer w tle
+                                t = threading.Thread(target=timer)
+                                t.start()
+
+                                # Wykonaj transkrypcję (to może chwilę potrwać)
+                                result = model.transcribe(video_path, fp16=False)
+
+                                # Zatrzymaj timer
+                                stop_event.set()
+                                t.join()
+
+                                # Sprawdź, czy transkrypcja się powiodła
+                                if not result or "text" not in result:
+                                    print("Transkrypcja nie powiodła się.")
+                                    return
+
+                                # Zapisz transkrypcję do pliku
+                                with open(output_path, "w", encoding="utf-8") as f:
+                                    f.write(result["text"])
+
+                                print("Transkrypcja została zapisana pomyślnie.")
+
+                            except Exception as e:
+                                print(f"Wystąpił błąd: {e}")
+
+                        if __name__ == "__main__":
+                            video_path  = r"D:\WDI_KAFKA.mp4"
+                            output_path = r"D:\WDI_KAFKA.txt"
+                            transcribe_video(video_path, output_path)
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/44.png" alt="blog">
@@ -399,6 +894,30 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>     -->
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">youtube_transcript_api</h2>
+            </div>
+            <div class="PlaceCodeHere ">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+                        from youtube_transcript_api import YouTubeTranscriptApi
+
+                        # ID filmiku YouTube
+                        video_id = '2uLGXe95kTo'
+
+                        # Pobierz transkrypcję
+                        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+
+                        # Wyświetl transkrypcję
+                        for line in transcript:
+                            print(line['text'])
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/46.png" alt="blog">
@@ -430,11 +949,101 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Ollama w pythonie</h2>
+            </div>
+            <div class="PlaceCodeHere ">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+                        import ollama
+
+                        # Inicjalizacja klienta ollama z dokładnym adresem
+                        client = ollama.Client(host='http://localhost:11434')
+
+                        # Wywołanie modelu z przykładowym promptem
+                        response = client.generate(
+                            model="llama3",
+                            prompt="Why is the sky blue?"
+                        )
+
+                        # Wyświetlenie odpowiedzi
+                        print(response['response'])
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Ollama w C#</h2>
+            </div>
+            <div class="PlaceCodeHere ">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+                        using Microsoft.Extensions.AI;
+                        using Microsoft.Extensions.DependencyInjection;
+                        using Microsoft.Extensions.Hosting;
+
+                        var builder = Host.CreateApplicationBuilder();
+
+                        builder.Services.AddChatClient
+                            (new OllamaChatClient(new Uri(&quot;http://localhost:11434&quot;),
+                            &quot;llama3&quot;));
+
+                        var app = builder.Build();
+
+                        var chatClient = app.Services.
+                            GetRequiredService&lt;IChatClient&gt;();
+
+                        var chatHistory = new List&lt;ChatMessage&gt;();
+
+                        while (true)
+                        {
+                            Console.WriteLine(&quot;Enter your prompt:&quot;);
+                            var userPrompt = Console.ReadLine();
+                            chatHistory.Add(new ChatMessage(ChatRole.User, userPrompt));
+
+                            Console.WriteLine(&quot;Response from AI:&quot;);
+                            var chatResponse = &quot;&quot;;
+                            await foreach (var item in
+                                chatClient.CompleteStreamingAsync(chatHistory))
+                            {
+                                // We&#39;re streaming the response,
+                                // so we get each message as it arrives
+                                Console.Write(item.Text);
+                                chatResponse += item.Text;
+                            }
+                            chatHistory.Add(new ChatMessage(ChatRole.Assistant,
+                                chatResponse));
+                            Console.WriteLine();
+                        }
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/51.png" alt="blog">
             <figcaption class="white">CW</figcaption>
         </figure>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">youtube_transcript_api</h2>
+            </div>
+            <div class="PlaceCodeHere ">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+                    </code>
+                </pre>
+            </div>
+        </div>
     </section>
                 <!--KOD CAŁOŚĆ YOUTUBE -->
     <!-- <section class="slide" style="background-color:black">
@@ -443,6 +1052,20 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Ollama w pythonie</h2>
+            </div>
+            <div class="PlaceCodeHere ">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/53.png" alt="blog">
@@ -463,6 +1086,69 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">IMAP4_SSL</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+                        import imaplib
+                        import email
+                        from email.header import decode_header
+
+                        # Dane logowania
+                        username = "twoje@proton.me"
+                        password = "twoje_hasło"
+
+                        # Łączenie z serwerem IMAP Gmail
+                        mail = imaplib.IMAP4_SSL("imap.gmail.com")
+                        mail.login(username, password)
+
+                        # Wybór skrzynki odbiorczej
+                        mail.select("inbox")
+
+                        # Wyszukiwanie wiadomości o określonym temacie i zawierających określone słowa
+                        subject = "temat_wiadomości"
+                        keywords = ["słowo1", "słowo2"]
+                        search_criteria = f'(SUBJECT "{subject}")'
+                        status, messages = mail.search(None, search_criteria)
+
+                        if status == "OK":
+                            email_ids = messages[0].split()
+                            for email_id in email_ids:
+                                status, msg_data = mail.fetch(email_id, "(RFC822)")
+                                if status == "OK":
+                                    raw_email = msg_data[0][1]
+                                    email_message = email.message_from_bytes(raw_email)
+
+                                    # Sprawdzanie, czy wiadomość zawiera określone słowa
+                                    contains_keywords = all(keyword.lower() in email_message.get_payload().lower() for keyword in keywords)
+
+                                    if contains_keywords:
+                                        print(f"Znaleziono wiadomość o ID: {email_id}")
+                                        print(f"Temat: {email_message['Subject']}")
+                                        print(f"Od: {email_message['From']}")
+                                        print(f"Data: {email_message['Date']}")
+                                        print("Zawartość:")
+                                        print(email_message.get_payload())
+                                        print("=" * 50)
+
+                        # Zamykanie połączenia
+                        mail.close()
+                        mail.logout()
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/56.png" alt="blog">
@@ -536,6 +1222,124 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">googleapiclient.discovery</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+                        import os.path
+                        import base64
+                        from google.auth.transport.requests import Request
+                        from google.oauth2.credentials import Credentials
+                        from google_auth_oauthlib.flow import InstalledAppFlow
+                        from googleapiclient.discovery import build
+                        from bs4 import BeautifulSoup
+
+                        # If modifying these SCOPES, delete the file token.json.
+                        SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+
+                        def get_gmail_service():
+                            """Shows basic usage of the Gmail API.
+                            Lists the user's Gmail labels.
+                            """
+                            creds = None
+                            # The file token.json stores the user's access and refresh tokens.
+                            if os.path.exists(r'C:\Notes\token.json'):
+                                creds = Credentials.from_authorized_user_file(r'C:\Notes\token.json', SCOPES)
+                            # If there are no (valid) credentials available, let the user log in.
+                            if not creds or not creds.valid:
+                                if creds and creds.expired and creds.refresh_token:
+                                    creds.refresh(Request())
+                                else:
+                                    flow = InstalledAppFlow.from_client_secrets_file(
+                                        r'C:\Notes\credentials.json', SCOPES)
+                                    creds = flow.run_local_server(port=0)
+                                # Save the credentials for the next run
+                                with open(r'C:\Notes\token.json', 'w') as token:
+                                    token.write(creds.to_json())
+
+                            service = build('gmail', 'v1', credentials=creds)
+                            return service
+
+                        def get_latest_emails(service, max_results=10):
+                            results = service.users().messages().list(userId='me', maxResults=max_results).execute()
+                            messages = results.get('messages', [])
+                            return messages
+
+                        def get_email_details(service, msg_id):
+                            message = service.users().messages().get(userId='me', id=msg_id, format='full').execute()
+                            payload = message.get('payload', {})
+                            headers = payload.get('headers', [])
+                            subject = next(header['value'] for header in headers if header['name'] == 'Subject')
+                            sender = next(header['value'] for header in headers if header['name'] == 'From')
+                            date = next(header['value'] for header in headers if header['name'] == 'Date')
+
+                            # Extract the body of the email
+                            if 'parts' in payload:
+                                parts = payload['parts']
+                                data = parts[0]['body']['data']
+                            else:
+                                data = payload['body']['data']
+                            data = data.replace("-", "+").replace("_", "/")
+                            decoded_data = base64.b64decode(data)
+                            soup = BeautifulSoup(decoded_data, 'html.parser')
+                            body = soup.get_text()
+
+                            return {
+                                'subject': subject,
+                                'sender': sender,
+                                'date': date,
+                                'body': body
+                            }
+
+                        def filter_emails_by_keywords(emails, keywords):
+                            filtered_emails = []
+                            for email in emails:
+                                for keyword in keywords:
+                                    if keyword.lower() in email['subject'].lower() or keyword.lower() in email['body'].lower():
+                                        filtered_emails.append(email)
+                                        break
+                            return filtered_emails
+
+                        def main():
+                            service = get_gmail_service()
+                            messages = get_latest_emails(service)
+                            emails = []
+                            for message in messages:
+                                email_details = get_email_details(service, message['id'])
+                                emails.append(email_details)
+
+                            keywords = ['C#', '.NET']  # Add your keywords here
+                            filtered_emails = filter_emails_by_keywords(emails, keywords)
+
+                            for email in filtered_emails:
+                                print(f"Subject: {email['subject']}")
+                                print(f"From: {email['sender']}")
+                                print(f"Date: {email['date']}")
+                                print(f"Body: {email['body']}")
+                                print("\n")
+
+                        if __name__ == '__main__':
+                            main()
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/68.png" alt="blog">
@@ -549,6 +1353,22 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">googleapiclient.discovery</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/70.png" alt="blog">
@@ -563,7 +1383,293 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
-     
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/sgai-hero.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">SmartScraperGraph</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+                        from scrapegraphai.graphs import SmartScraperGraph
+                        from scrapegraphai.llms import OllamaLLM
+
+                        # Konfiguracja lokalnego LLM (w tym przypadku Ollama)
+                        llm_config = {
+                            "llm": OllamaLLM(model="llama3"),
+                            "verbose": True
+                        }
+
+                        # Źródło do przeszukania
+                        website_url = "https://en.wikipedia.org/wiki/Python_(programming_language)"
+
+                        # Pytanie do zadania agentowi
+                        question = "Jakie są główne cechy języka Python?"
+
+                        # Utworzenie grafu
+                        graph_config = {
+                            "prompt": question,
+                            "website": website_url
+                        }
+
+                        # Utwórz SmartScraperGraph z lokalnym LLM
+                        graph = SmartScraperGraph(config=graph_config, llm=llm_config["llm"])
+
+                        # Wykonanie zapytania
+                        result = graph.run()
+                        print("🔍 Wynik:", result)
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">SmartScraperGraph</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+                        import os
+                        from datetime import datetime, timedelta
+                        from scrapegraphai.graphs import SmartScraperGraph
+                        from scrapegraphai.utils import prettify_exec_info
+
+                        # Konfiguracja dla Ollama (lokalny model)
+                        graph_config = {
+                            "llm": {
+                                "model": "ollama/llama3.2:3b",  # lub inny model dostępny w Ollama
+                                "temperature": 0.1,
+                                "base_url": "http://localhost:11434",  # domyślny port Ollama
+                            },
+                            "verbose": True,
+                            "headless": True,
+                        }
+
+                        def find_recent_articles(url, target_month_year, max_articles=10):
+                            """
+                            Znajdź najnowsze artykuły z określonego miesiąca i roku
+                            
+                            Args:
+                                url: URL strony do przeszukania
+                                target_month_year: format "YYYY-MM" (np. "2024-12")
+                                max_articles: maksymalna liczba artykułów do znalezienia
+                            """
+                            
+                            # Prompt instruujący AI jak znaleźć i filtrować artykuły
+                            prompt = f"""
+                            Znajdź wszystkie linki do artykułów z tej strony, które zostały opublikowane w {target_month_year}.
+                            
+                            Dla każdego artykułu zwróć:
+                            1. Tytuł artykułu
+                            2. Pełny URL/link do artykułu
+                            3. Datę publikacji (jeśli dostępna)
+                            4. Krótki opis lub fragment (jeśli dostępny)
+                            
+                            Sortuj wyniki od najnowszych do najstarszych.
+                            Ogranicz wyniki do maksymalnie {max_articles} artykułów.
+                            
+                            Zwróć wyniki w formacie JSON jako listę obiektów z polami:
+                            - title
+                            - url
+                            - publication_date
+                            - description
+                            """
+                            
+                            try:
+                                # Tworzenie grafu scrapującego
+                                smart_scraper_graph = SmartScraperGraph(
+                                    prompt=prompt,
+                                    source=url,
+                                    config=graph_config
+                                )
+                                
+                                # Wykonanie scrapowania
+                                result = smart_scraper_graph.run()
+                                
+                                return result
+                                
+                            except Exception as e:
+                                print(f"Błąd podczas scrapowania: {e}")
+                                return None
+
+                        def find_articles_with_keywords(url, keywords, date_filter=None):
+                            """
+                            Znajdź artykuły zawierające określone słowa kluczowe
+                            
+                            Args:
+                                url: URL strony do przeszukania  
+                                keywords: lista słów kluczowych
+                                date_filter: opcjonalny filtr daty (format "YYYY-MM")
+                            """
+                            
+                            keywords_str = ", ".join(keywords)
+                            date_condition = f" opublikowane w {date_filter}" if date_filter else ""
+                            
+                            prompt = f"""
+                            Znajdź wszystkie artykuły na tej stronie, które zawierają którekolwiek z następujących słów kluczowych: {keywords_str}{date_condition}.
+                            
+                            Dla każdego pasującego artykułu zwróć:
+                            1. Tytuł
+                            2. Pełny URL
+                            3. Datę publikacji
+                            4. Fragment tekstu zawierający słowo kluczowe
+                            5. Które słowo kluczowe zostało znalezione
+                            
+                            Sortuj wyniki według relevancji i daty publikacji.
+                            
+                            Format odpowiedzi: JSON lista obiektów z polami:
+                            - title
+                            - url  
+                            - publication_date
+                            - relevant_snippet
+                            - matched_keywords
+                            """
+                            
+                            try:
+                                smart_scraper_graph = SmartScraperGraph(
+                                    prompt=prompt,
+                                    source=url,
+                                    config=graph_config
+                                )
+                                
+                                result = smart_scraper_graph.run()
+                                return result
+                                
+                            except Exception as e:
+                                print(f"Błąd podczas wyszukiwania z słowami kluczowymi: {e}")
+                                return None
+
+                        def scrape_news_website_articles(url, days_back=30):
+                            """
+                            Scrape artykułów z witryny informacyjnej z ostatnich N dni
+                            """
+                            
+                            target_date = datetime.now() - timedelta(days=days_back)
+                            date_str = target_date.strftime("%Y-%m-%d")
+                            
+                            prompt = f"""
+                            Przeanalizuj tę stronę internetową i znajdź wszystkie artykuły informacyjne 
+                            opublikowane od {date_str} do dzisiaj.
+                            
+                            Dla każdego artykułu wyodrębnij:
+                            1. Pełny tytuł artykułu
+                            2. Bezpośredni link do artykułu (pełny URL)
+                            3. Datę i czas publikacji
+                            4. Nazwę autora (jeśli dostępna)
+                            5. Kategorię lub sekcję
+                            6. Pierwsze 2-3 zdania artykułu jako podgląd
+                            
+                            Ignoruj:
+                            - Reklamy
+                            - Linki do innych stron
+                            - Menu nawigacyjne
+                            - Stopki strony
+                            
+                            Zwróć wyniki jako JSON array z obiektami zawierającymi pola:
+                            title, url, publication_date, author, category, preview
+                            
+                            Sortuj chronologicznie od najnowszych.
+                            """
+                            
+                            try:
+                                smart_scraper_graph = SmartScraperGraph(
+                                    prompt=prompt,
+                                    source=url,
+                                    config=graph_config
+                                )
+                                
+                                result = smart_scraper_graph.run()
+                                return result
+                                
+                            except Exception as e:
+                                print(f"Błąd podczas scrapowania witryny informacyjnej: {e}")
+                                return None
+
+                        # Przykłady użycia
+                        if __name__ == "__main__":
+                            
+                            # Upewnij się, że Ollama jest uruchomiona lokalnie
+                            print("Sprawdzanie połączenia z Ollama...")
+                            
+                            # Przykład 1: Znajdź artykuły z grudnia 2024
+                            print("\n=== Wyszukiwanie artykułów z grudnia 2024 ===")
+                            url1 = "https://cezarywalenciuk.pl/blog/programing/archive"  # Zastąp prawdziwym URL
+                            
+                            articles_dec_2024 = find_recent_articles(url1, "2022-12", max_articles=5)
+                            
+                            if articles_dec_2024:
+                                print("Znalezione artykuły:")
+                                print(articles_dec_2024)
+                            
+                            # Przykład 2: Wyszukaj artykuły ze słowami kluczowymi
+                            print("\n=== Wyszukiwanie artykułów ze słowami kluczowymi ===")
+                            keywords = ["C#", "ASP.NET", "Windows"]
+                            
+                            keyword_articles = find_articles_with_keywords(
+                                url1, 
+                                keywords, 
+                                date_filter="2021-12"
+                            )
+                            
+                            if keyword_articles:
+                                print("Artykuły ze słowami kluczowymi:")
+                                print(keyword_articles)
+                            
+                            # Przykład 3: Scraping witryny informacyjnej z ostatnich 7 dni
+                            print("\n=== Najnowsze artykuły z ostatnich 900 dni ===")
+                            news_url = "https://cezarywalenciuk.pl/blog/programing/archive"  # Zastąp prawdziwym URL
+                            
+                            recent_news = scrape_news_website_articles(news_url, days_back=900)
+                            
+                            if recent_news:
+                                print("Najnowsze artykuły:")
+                                print(recent_news)
+
+                        # Funkcja pomocnicza do ładnego wyświetlania wyników
+                        def display_articles(articles_data, max_display=5):
+                            """Wyświetl artykuły w czytelnym formacie"""
+                            
+                            if not articles_data:
+                                print("Brak danych do wyświetlenia")
+                                return
+                            
+                            # Jeśli wynik jest stringiem JSON, spróbuj go sparsować
+                            if isinstance(articles_data, str):
+                                import json
+                                try:
+                                    articles_data = json.loads(articles_data)
+                                except:
+                                    print("Nie można sparsować danych JSON")
+                                    print(articles_data)
+                                    return
+                            
+                            # Jeśli to lista artykułów
+                            if isinstance(articles_data, list):
+                                print(f"\nZnaleziono {len(articles_data)} artykułów:")
+                                print("=" * 60)
+                                
+                                for i, article in enumerate(articles_data[:max_display]):
+                                    print(f"\n{i+1}. {article.get('title', 'Brak tytułu')}")
+                                    print(f"   URL: {article.get('url', 'Brak URL')}")
+                                    print(f"   Data: {article.get('publication_date', 'Brak daty')}")
+                                    if article.get('description'):
+                                        print(f"   Opis: {article['description'][:100]}...")
+                            else:
+                                print("Wyniki:")
+                                print(articles_data)
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/72.png" alt="blog">
