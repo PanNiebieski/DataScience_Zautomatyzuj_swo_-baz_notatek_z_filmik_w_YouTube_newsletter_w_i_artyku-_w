@@ -269,6 +269,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+   <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
             <div class="HeaderTitle GG"> 
@@ -304,48 +310,47 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
                         from datetime import datetime
 
                         class HourlyFileService(win32serviceutil.ServiceFramework):
-                            _svc_name_ = "HourlyFileService"
-                            _svc_display_name_ = "Hourly File Creation Service"
-                            _svc_description_ = "Tworzy nowy plik z timestampem co godzinę."
+                        _svc_name_ = &quot;HourlyFileService&quot;
+                        _svc_display_name_ = &quot;Hourly File Creation Service&quot;
+                        _svc_description_ = &quot;Tworzy nowy plik z timestampem co godzinę.&quot;
 
-                            def __init__(self, args):
-                                super().__init__(args)
-                                # Zdarzenie do obsługi zatrzymania usługi:
-                                self.stop_event = win32event.CreateEvent(None, 0, 0, None)
-                                self.running = True
+                        def __init__(self, args):
+                            super().__init__(args)
+                            # Zdarzenie do obsługi zatrzymania usługi:
+                            self.stop_event = win32event.CreateEvent(None, 0, 0, None)
+                            self.running = True
 
-                            def SvcStop(self):
-                                # Wywoływane przy zatrzymaniu usługi
-                                self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
-                                self.running = False
-                                win32event.SetEvent(self.stop_event)
+                        def SvcStop(self):
+                            # Wywoływane przy zatrzymaniu usługi
+                            self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
+                            self.running = False
+                            win32event.SetEvent(self.stop_event)
 
-                            def SvcDoRun(self):
-                                servicemanager.LogInfoMsg("HourlyFileService – start")
-                                # Pętla główna usługi
-                                while self.running:
-                                    try:
-                                        # Tworzenie pliku w katalogu usługi
-                                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                                        filename = f"plik_{timestamp}.txt"
-                                        # np. w katalogu C:\HourlyFiles
-                                        output_dir = r"C:\Notes\HourlyFiles"
-                                        os.makedirs(output_dir, exist_ok=True)
-                                        full_path = os.path.join(output_dir, filename)
-                                        with open(full_path, "w") as f:
-                                            f.write(f"Plik utworzony: {timestamp}\n")
-                                        servicemanager.LogInfoMsg(f"Utworzono plik: {full_path}")
-                                    except Exception as e:
-                                        servicemanager.LogErrorMsg(f"Błąd przy tworzeniu pliku: {e}")
+                        def SvcDoRun(self):
+                            servicemanager.LogInfoMsg(&quot;HourlyFileService – start&quot;)
+                            # Pętla gł&#243;wna usługi
+                            while self.running:
+                                try:
+                                    # Tworzenie pliku w katalogu usługi
+                                    timestamp = datetime.now().strftime(&quot;%Y%m%d_%H%M%S&quot;)
+                                    filename = f&quot;plik_{timestamp}.txt&quot;
+                                    # np. w katalogu C:\HourlyFiles
+                                    output_dir = r&quot;C:\Notes\HourlyFiles&quot;
+                                    os.makedirs(output_dir, exist_ok=True)
+                                    full_path = os.path.join(output_dir, filename)
+                                    with open(full_path, &quot;w&quot;) as f:
+                                        f.write(f&quot;Plik utworzony: {timestamp}\n&quot;)
+                                    servicemanager.LogInfoMsg(f&quot;Utworzono plik: {full_path}&quot;)
+                                except Exception as e:
+                                    servicemanager.LogErrorMsg(f&quot;Błąd przy tworzeniu pliku: {e}&quot;)
 
-                                    # Czekaj do 3600 sekund lub do sygnału zatrzymania
-                                    win32event.WaitForSingleObject(self.stop_event, 3600 * 1000)
+                                # Czekaj do 3600 sekund lub do sygnału zatrzymania
+                                win32event.WaitForSingleObject(self.stop_event, 3600 * 1000)
 
-                                servicemanager.LogInfoMsg("HourlyFileService – stop")
+                            servicemanager.LogInfoMsg(&quot;HourlyFileService – stop&quot;)
 
-                        if __name__ == '__main__':
-                            win32serviceutil.HandleCommandLine(HourlyFileService)
-
+                        if __name__ == &#39;__main__&#39;:
+                        win32serviceutil.HandleCommandLine(HourlyFileService)
                     </code>
                 </pre>
             </div>
@@ -394,6 +399,18 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>
+        <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/dlaczegoytAPI.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/ytproblem.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/29.png" alt="blog">
@@ -421,6 +438,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/33.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>
@@ -454,36 +477,36 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
                         from googleapiclient.discovery import build
 
                         def get_channel_id(api_key, url):
-                            youtube = build('youtube', 'v3', developerKey=api_key)
-                            if 'youtube.com/watch' in url:
+                            youtube = build(&#39;youtube&#39;, &#39;v3&#39;, developerKey=api_key)
+                            if &#39;youtube.com/watch&#39; in url:
                                 # Wyciągnij videoId z URL-a
-                                video_id = url.split('v=')[1].split('&')[0]
-                                response = youtube.videos().list(part='snippet', id=video_id).execute()
-                                return response['items'][0]['snippet']['channelId']
+                                video_id = url.split(&#39;v=&#39;)[1].split(&#39;&amp;&#39;)[0]
+                                response = youtube.videos().list(part=&#39;snippet&#39;, id=video_id).execute()
+                                return response[&#39;items&#39;][0][&#39;snippet&#39;][&#39;channelId&#39;]
 
-                            elif 'youtube.com/channel/' in url:
+                            elif &#39;youtube.com/channel/&#39; in url:
                                 # Bezpośredni ID kanału
-                                return url.rstrip('/').split('/')[-1]
+                                return url.rstrip(&#39;/&#39;).split(&#39;/&#39;)[-1]
 
-                            elif ('youtube.com/c/' in url) or ('youtube.com/user/' in url) or ('youtube.com/@' in url):
+                            elif (&#39;youtube.com/c/&#39; in url) or (&#39;youtube.com/user/&#39; in url) or (&#39;youtube.com/@&#39; in url):
                                 # Wyciągnij nazwę kanału i znajdź ID przez wyszukiwanie
-                                channel_name = url.rstrip('/').split('/')[-1]
+                                channel_name = url.rstrip(&#39;/&#39;).split(&#39;/&#39;)[-1]
                                 response = youtube.search().list(
-                                    part='id',
+                                    part=&#39;id&#39;,
                                     q=channel_name,
-                                    type='channel',
+                                    type=&#39;channel&#39;,
                                     maxResults=1
                                 ).execute()
-                                return response['items'][0]['id']['channelId']
+                                return response[&#39;items&#39;][0][&#39;id&#39;][&#39;channelId&#39;]
 
                             else:
-                                raise ValueError("Nieprawidłowy URL YouTube")
+                                raise ValueError(&quot;Nieprawidłowy URL YouTube&quot;)
 
                         # Example usage
-                        api_key = os.getenv('YOUTUBE_API_KEY')   # Replace with your actual API key
-                        url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'  # Example video URL
+                        api_key = os.getenv(&#39;YOUTUBE_API_KEY&#39;)   # Replace with your actual API key
+                        url = &#39;https://www.youtube.com/watch?v=dQw4w9WgXcQ&#39;  # Example video URL
                         channel_id = get_channel_id(api_key, url)
-                        print(f"Channel ID: {channel_id}")
+                        print(f&quot;Channel ID: {channel_id}&quot;)
 
 
                     </code>
@@ -491,13 +514,19 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             </div>
         </div>
     </section>
+       <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/csharp.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
             <div class="HeaderTitle GG"> 
                 <h2 class="headerCODE GG">Pobieranie najnowszych filmików z YouTube API</h2>
             </div>
             <div class="PlaceCodeHere canscroll">
-                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
                     <code style="line-height: 28px !important;">
 
 
@@ -516,97 +545,372 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
 
 
 
-                    import os
-                    from googleapiclient.discovery import build
+                        try
+                        {
+                            var youtubeService = new YTHelperService();
+                            string youtubeUrl = &quot;https://www.youtube.com/@nickchapsas&quot;;
 
-                    # Klucz API YouTube
-                    API_KEY = os.getenv('YOUTUBE_API_KEY')
+                            Console.WriteLine($&quot;Pobieranie Channel ID dla: {youtubeUrl}&quot;);
 
-                    # Inicjalizacja klienta YouTube API
-                    youtube = build('youtube', 'v3', developerKey=API_KEY)
+                            // Krok 1: Znajdź Channel ID na podstawie URL
+                            string channelId = await youtubeService.GetChannelIdFromUrl(youtubeUrl);
 
-                    def get_channel_id(api_key, url):
-                        youtube = build('youtube', 'v3', developerKey=api_key)
+                            if (string.IsNullOrEmpty(channelId))
+                            {
+                                Console.WriteLine(&quot;Nie udało się znaleźć Channel ID&quot;);
+                                return;
+                            }
 
-                        if 'youtube.com/watch' in url:
-                            # Wyciągnij videoId z URL-a
-                            video_id = url.split('v=')[1].split('&')[0]
-                            response = youtube.videos().list(part='snippet', id=video_id).execute()
-                            return response['items'][0]['snippet']['channelId']
+                            Console.WriteLine($&quot;Znaleziony Channel ID: {channelId}&quot;);
+                            Console.WriteLine();
 
-                        elif 'youtube.com/channel/' in url:
-                            # Bezpośredni ID kanału
-                            return url.rstrip('/').split('/')[-1]
+                            // Krok 2: Pobierz ostatnie filmiki
+                            Console.WriteLine(&quot;Pobieranie ostatnich filmik&#243;w...&quot;);
+                            var videos = await youtubeService.GetLatestVideos(channelId);
 
-                        elif ('youtube.com/c/' in url) or ('youtube.com/user/' in url) or ('youtube.com/@' in url):
-                            # Wyciągnij nazwę kanału i znajdź ID przez wyszukiwanie
-                            channel_name = url.rstrip('/').split('/')[-1]
-                            response = youtube.search().list(
-                                part='id',
-                                q=channel_name,
-                                type='channel',
-                                maxResults=1
-                            ).execute()
-                            return response['items'][0]['id']['channelId']
+                            // Krok 3: Wyświetl listę filmik&#243;w
+                            youtubeService.DisplayVideos(videos);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($&quot;Wystąpił błąd: {ex.Message}&quot;);
+                        }
 
-                        else:
-                            raise ValueError("Nieprawidłowy URL YouTube")
+                        Console.WriteLine(&quot;\nNaciśnij dowolny klawisz aby zakończyć...&quot;);
+                        Console.ReadKey();
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie najnowszych filmików z YouTube API</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+                        /// &lt;summary&gt;
+                        /// Model reprezentujący informacje o filmiku YouTube
+                        /// &lt;/summary&gt;
+                        public class VideoInfo
+                        {
+                            /// &lt;summary&gt;
+                            /// Unikalny identyfikator filmu
+                            /// &lt;/summary&gt;
+                            public string Id { get; set; }
 
-                    def get_latest_videos(channel_id, max_results=10):
-                        # Step 1: Get video IDs
-                        search_response = youtube.search().list(
-                            part='id',
-                            channelId=channel_id,
-                            maxResults=max_results,
-                            order='date',
-                            type='video'
-                        ).execute()
+                            /// &lt;summary&gt;
+                            /// Pełny URL do filmu
+                            /// &lt;/summary&gt;
+                            public string Url { get; set; }
 
-                        video_ids = [item['id']['videoId'] for item in search_response.get('items', [])]
+                            /// &lt;summary&gt;
+                            /// Tytuł filmu
+                            /// &lt;/summary&gt;
+                            public string Title { get; set; }
 
-                        # Step 2: Get full details for each video
-                        videos_response = youtube.videos().list(
-                            part='snippet',
-                            id=','.join(video_ids)
-                        ).execute()
+                            /// &lt;summary&gt;
+                            /// Opis filmu
+                            /// &lt;/summary&gt;
+                            public string Description { get; set; }
 
-                        videos = []
-                        for item in videos_response.get('items', []):
-                            snippet = item['snippet']
-                            video_id = item['id']
-                            video_url = f"https://www.youtube.com/watch?v={video_id}"
-                            videos.append({
-                                'id': video_id,
-                                'url': video_url,
-                                'title': snippet['title'],
-                                'description': snippet['description'],
-                                'publishedAt': snippet['publishedAt'],
-                                'channelTitle': snippet['channelTitle']
-                            })
+                            /// &lt;summary&gt;
+                            /// Data publikacji filmu
+                            /// &lt;/summary&gt;
+                            public string PublishedAt { get; set; }
 
-                        return videos
-
-
-                    def display_videos(videos):
-                        for video in videos:
-                            print(f"Tytuł: {video['title']}")
-                            print(f"URL: {video['url']}")
-                            print(f"ID: {video['id']}")
-                            print(f"Opis: {video['description']}")
-                            print(f"Opublikowane: {video['publishedAt']}")
-                            print("\n---\n")
+                            /// &lt;summary&gt;
+                            /// Nazwa kanału
+                            /// &lt;/summary&gt;
+                            public string ChannelTitle { get; set; }
+                        }
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie najnowszych filmików z YouTube API</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
 
 
-                    if __name__ == '__main__':
-                        url = 'https://www.youtube.com/@nickchapsas'  # <- Zmień na dowolny URL kanału lub filmiku
-                        try:
-                            channel_id = get_channel_id(API_KEY, url)
-                            print(f"Channel ID: {channel_id}")
-                            latest_videos = get_latest_videos(channel_id)
-                            display_videos(latest_videos)
-                        except Exception as e:
-                            print(f"Błąd: {e}")
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /// &lt;summary&gt;
+                        /// Klasa do zarządzania konfiguracją aplikacji
+                        /// &lt;/summary&gt;
+                        public class ConfigurationManager
+                        {
+                            private readonly IConfiguration _configuration;
+
+                            public ConfigurationManager()
+                            {
+                                var builder = new ConfigurationBuilder()
+                                    .SetBasePath(Directory.GetCurrentDirectory())
+                                    .AddJsonFile(&quot;appsettings.json&quot;, optional: false, reloadOnChange: true)
+                                    .AddEnvironmentVariables();
+
+                                _configuration = builder.Build();
+                            }
+
+                            /// &lt;summary&gt;
+                            /// Klucz API YouTube
+                            /// &lt;/summary&gt;
+                            public string ApiKey =&gt; Environment.GetEnvironmentVariable(&quot;YOUTUBE_API_KEY&quot;);
+
+                            /// &lt;summary&gt;
+                            /// Nazwa aplikacji
+                            /// &lt;/summary&gt;
+                            public string ApplicationName =&gt; GetConfigValue(&quot;YouTube:ApplicationName&quot;);
+
+                            /// &lt;summary&gt;
+                            /// Maksymalna liczba wynik&#243;w do pobrania
+                            /// &lt;/summary&gt;
+                            public long MaxResults =&gt; long.Parse(GetConfigValue(&quot;YouTube:MaxResults&quot;, &quot;10&quot;));
+
+                            /// &lt;summary&gt;
+                            /// Pobierz wartość z konfiguracji
+                            /// &lt;/summary&gt;
+                            /// &lt;param name=&quot;key&quot;&gt;Klucz konfiguracji&lt;/param&gt;
+                            /// &lt;param name=&quot;defaultValue&quot;&gt;Wartość domyślna&lt;/param&gt;
+                            /// &lt;returns&gt;Wartość konfiguracji&lt;/returns&gt;
+                            private string GetConfigValue(string key, string defaultValue = null)
+                            {
+                                var value = _configuration[key];
+
+                                if (string.IsNullOrEmpty(value))
+                                {
+                                    if (defaultValue != null)
+                                        return defaultValue;
+
+                                    throw new InvalidOperationException($&quot;Brak konfiguracji dla klucza: {key}&quot;);
+                                }
+
+                                return value;
+                            }
+                        }
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie najnowszych filmików z YouTube API</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+                        public class YTHelperService
+                        {
+                            private readonly YouTubeService _youtubeService;
+                            private readonly ConfigurationManager _config;
+
+                            public YTHelperService()
+                            {
+                                _config = new ConfigurationManager();
+                                _youtubeService = new YouTubeService(new BaseClientService.Initializer() { ApiKey = _config.ApiKey });
+                            }
+
+                            /// &lt;summary&gt;
+                            /// Znajdź Channel ID na podstawie URL YouTube
+                            /// &lt;/summary&gt;
+                            public async Task&lt;string&gt; GetChannelIdFromUrl(string url)
+                            {
+                                try
+                                {
+                                    // Spos&#243;b 1: Sprawdź czy to bezpośredni link do kanału z ID
+                                    var channelIdMatch = Regex.Match(url, @&quot;youtube\.com/channel/([a-zA-Z0-9_-]+)&quot;);
+                                    if (channelIdMatch.Success)
+                                    {
+                                        return channelIdMatch.Groups[1].Value;
+                                    }
+
+                                    // Spos&#243;b 2: Sprawdź czy to link do filmu - wyciągnij Channel ID z filmu
+                                    var videoIdMatch = Regex.Match(url, @&quot;(?:youtube\.com/watch\?v=|youtu\.be/)([a-zA-Z0-9_-]+)&quot;);
+                                    if (videoIdMatch.Success)
+                                    {
+                                        string videoId = videoIdMatch.Groups[1].Value;
+                                        return await GetChannelIdFromVideoId(videoId);
+                                    }
+
+                                    // Spos&#243;b 3: Sprawdź czy to link z nazwą użytkownika (@username lub /user/)
+                                    var usernameMatch = Regex.Match(url, @&quot;youtube\.com/@([a-zA-Z0-9_-]+)&quot;);
+                                    if (usernameMatch.Success)
+                                    {
+                                        string username = usernameMatch.Groups[1].Value;
+                                        return await GetChannelIdByUsername(username);
+                                    }
+
+                                    var userMatch = Regex.Match(url, @&quot;youtube\.com/user/([a-zA-Z0-9_-]+)&quot;);
+                                    if (userMatch.Success)
+                                    {
+                                        string username = userMatch.Groups[1].Value;
+                                        return await GetChannelIdByUsername(username);
+                                    }
+
+                                    // Spos&#243;b 4: Sprawdź czy to link z /c/
+                                    var customMatch = Regex.Match(url, @&quot;youtube\.com/c/([a-zA-Z0-9_-]+)&quot;);
+                                    if (customMatch.Success)
+                                    {
+                                        string customName = customMatch.Groups[1].Value;
+                                        return await GetChannelIdByUsername(customName);
+                                    }
+
+                                    throw new ArgumentException(&quot;Nierozpoznany format URL YouTube&quot;);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($&quot;Błąd podczas pobierania Channel ID: {ex.Message}&quot;);
+                                    return null;
+                                }
+                            }
+
+                            /// &lt;summary&gt;
+                            /// Pobierz Channel ID na podstawie Video ID
+                            /// &lt;/summary&gt;
+                            private async Task&lt;string&gt; GetChannelIdFromVideoId(string videoId)
+                            {
+                                var videoRequest = _youtubeService.Videos.List(&quot;snippet&quot;);
+                                videoRequest.Id = videoId;
+
+                                var videoResponse = await videoRequest.ExecuteAsync();
+                                var video = videoResponse.Items.FirstOrDefault();
+
+                                return video?.Snippet.ChannelId;
+                            }
+
+                            /// &lt;summary&gt;
+                            /// Pobierz Channel ID na podstawie nazwy użytkownika (wyszukiwanie)
+                            /// &lt;/summary&gt;
+                            private async Task&lt;string&gt; GetChannelIdByUsername(string username)
+                            {
+                                var searchRequest = _youtubeService.Search.List(&quot;snippet&quot;);
+                                searchRequest.Q = username;
+                                searchRequest.Type = &quot;channel&quot;;
+                                searchRequest.MaxResults = 1;
+
+                                var searchResponse = await searchRequest.ExecuteAsync();
+                                var channel = searchResponse.Items.FirstOrDefault();
+
+                                return channel?.Snippet.ChannelId;
+                            }
+
+                            /// &lt;summary&gt;
+                            /// Pobierz ostatnie filmiki z danego kanału
+                            /// &lt;/summary&gt;
+                            public async Task&lt;List&lt;VideoInfo&gt;&gt; GetLatestVideos(string channelId)
+                            {
+                                try
+                                {
+                                    var searchRequest = _youtubeService.Search.List(&quot;snippet&quot;);
+                                    searchRequest.ChannelId = channelId;
+                                    searchRequest.Type = &quot;video&quot;;
+                                    searchRequest.Order = SearchResource.ListRequest.OrderEnum.Date;
+                                    searchRequest.MaxResults = _config.MaxResults;
+
+                                    var searchResponse = await searchRequest.ExecuteAsync();
+                                    var videos = new List&lt;VideoInfo&gt;();
+
+                                    foreach (var item in searchResponse.Items)
+                                    {
+                                        var video = new VideoInfo
+                                        {
+                                            Id = item.Id.VideoId,
+                                            Url = $&quot;https://www.youtube.com/watch?v={item.Id.VideoId}&quot;,
+                                            Title = item.Snippet.Title,
+                                            Description = item.Snippet.Description,
+                                            PublishedAt = item.Snippet.PublishedAt?.ToString(&quot;dd.MM.yyyy HH:mm&quot;) ?? &quot;Brak daty&quot;,
+                                            ChannelTitle = item.Snippet.ChannelTitle
+                                        };
+
+                                        videos.Add(video);
+                                    }
+
+                                    return videos;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($&quot;Błąd podczas pobierania filmik&#243;w: {ex.Message}&quot;);
+                                    return new List&lt;VideoInfo&gt;();
+                                }
+                            }
+
+                            /// &lt;summary&gt;
+                            /// Wyświetl listę filmik&#243;w w konsoli
+                            /// &lt;/summary&gt;
+                            public void DisplayVideos(List&lt;VideoInfo&gt; videos)
+                            {
+                                if (videos == null || !videos.Any())
+                                {
+                                    Console.WriteLine(&quot;Brak filmik&#243;w do wyświetlenia.&quot;);
+                                    return;
+                                }
+
+                                Console.WriteLine($&quot;Znaleziono {videos.Count} filmik&#243;w:\n&quot;);
+                                Console.WriteLine(new string(&#39;=&#39;, 100));
+
+                                for (int i = 0; i &lt; videos.Count; i++)
+                                {
+                                    var video = videos[i];
+
+                                    Console.WriteLine($&quot;#{i + 1}&quot;);
+                                    Console.WriteLine($&quot;Tytuł: {video.Title}&quot;);
+                                    Console.WriteLine($&quot;URL: {video.Url}&quot;);
+                                    Console.WriteLine($&quot;ID: {video.Id}&quot;);
+                                    Console.WriteLine($&quot;Kanał: {video.ChannelTitle}&quot;);
+                                    Console.WriteLine($&quot;Data publikacji: {video.PublishedAt}&quot;);
+                                    Console.WriteLine($&quot;Opis: {TruncateDescription(video.Description)}&quot;);
+                                    Console.WriteLine(new string(&#39;-&#39;, 100));
+                                }
+                            }
+
+                            /// &lt;summary&gt;
+                            /// Skr&#243;ć opis do określonej długości
+                            /// &lt;/summary&gt;
+                            private string TruncateDescription(string description)
+                            {
+                                if (string.IsNullOrEmpty(description))
+                                    return &quot;Brak opisu&quot;;
+
+                                const int maxLength = 200;
+                                if (description.Length &lt;= maxLength)
+                                    return description;
+
+                                return description.Substring(0, maxLength) + &quot;...&quot;;
+                            }
+                        }
                     </code>
                 </pre>
             </div>
@@ -631,6 +935,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>
+        <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/LEGALNE.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <!--pOBIERANIE FILMIKU NA  YOUTUBE ID-->
     <!-- <section class="slide" style="background-color:black">
         <figure>
@@ -638,6 +948,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+           <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
             <div class="HeaderTitle GG"> 
@@ -653,25 +969,37 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
                         from pytubefix.cli import on_progress
 
                         # Replace with your desired YouTube video URL
-                        video_url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                        video_url = &#39;https://www.youtube.com/watch?v=dQw4w9WgXcQ&#39;
 
                         try:
-                            yt = YouTube(video_url,on_progress_callback = on_progress)
+                        yt = YouTube(video_url,on_progress_callback = on_progress)
 
-                            # Get the highest resolution progressive stream (video + audio)
-                            stream = yt.streams.get_highest_resolution()
+                        # Get the highest resolution progressive stream (video + audio)
+                        stream = yt.streams.get_highest_resolution()
 
-                            print(f"Downloading: {yt.title}")
-                            stream.download(output_path= r"C:\Notes\PyYouTubeTest")  # Saves to current directory
-                            print("Download complete!")
+                        print(f&quot;Downloading: {yt.title}&quot;)
+                        stream.download(output_path= r&quot;C:\Notes\PyYouTubeTest&quot;)  # Saves to current directory
+                        print(&quot;Download complete!&quot;)
 
                         except Exception as e:
-                            print("Error:", e)
+                        print(&quot;Error:&quot;, e)
 
                     </code>
                 </pre>
             </div>
         </div>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/yt-dlg.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/yt-dlp-slajd.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
     </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
@@ -683,25 +1011,225 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
                     <code style="line-height: 28px !important;">
 
 
+
                         import yt_dlp
 
                         # Replace with your desired YouTube URL
-                        video_url = 'https://www.youtube.com/watch?v=2lAe1cqCOXo'
+                        video_url = &#39;https://www.youtube.com/watch?v=2lAe1cqCOXo&#39;
 
                         # Download options
                         ydl_opts = {
-                            'format': 'bestvideo+bestaudio/best',
-                            'outtmpl': r"C:\Notes\ytDlpTest\%(title)s.%(ext)s",
-                            'noplaylist': True,        # Don't download playlists
-                            'quiet': False,            # Show progress
-                            'no_warnings': True,       # Suppress warnings
-                            'ignoreerrors': True,      # Skip videos that cause errors
+                            &#39;format&#39;: &#39;bestvideo+bestaudio/best&#39;,
+                            &#39;outtmpl&#39;: r&quot;C:\Notes\ytDlpTest\%(title)s.%(ext)s&quot;,
+                            &#39;noplaylist&#39;: True,        # Don&#39;t download playlists
+                            &#39;quiet&#39;: False,            # Show progress
+                            &#39;no_warnings&#39;: True,       # Suppress warnings
+                            &#39;ignoreerrors&#39;: True,      # Skip videos that cause errors
                         }
 
                         # Downloading the video
                         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                            ydl.download([video_url])
+                        ydl.download([video_url])
                     </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie filmików YouTube yt_dlp jako MP3</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+                        import yt_dlp
+
+                        def download_as_mp3(url, output_path=&#39;.&#39;):
+                            ydl_opts = {
+                                &#39;format&#39;: &#39;bestaudio/best&#39;,
+                                &#39;outtmpl&#39;: r&quot;C:\Notes\ytDlpTest\%(title)s.%(ext)s&quot;,
+                                &#39;postprocessors&#39;: [
+                                    {
+                                        &#39;key&#39;: &#39;FFmpegExtractAudio&#39;,
+                                        &#39;preferredcodec&#39;: &#39;mp3&#39;,
+                                        &#39;preferredquality&#39;: &#39;192&#39;,
+                                    },
+                                    {
+                                        &#39;key&#39;: &#39;FFmpegMetadata&#39;,
+                                    }
+                                ],
+                                &#39;quiet&#39;: False,
+                                &#39;no_warnings&#39;: True,       # Suppress warnings
+                                &#39;ignoreerrors&#39;: True,      # Skip videos that cause errors
+                            }
+
+                            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                                ydl.download([url])
+
+                        # Przykładowe użycie:
+                        download_as_mp3(&#39;https://www.youtube.com/watch?v=dQw4w9WgXcQ&#39;)
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+           <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/csharp.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+     <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie filmików YouTube yt_dlp</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-scharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+                    using YoutubeDLSharp;
+
+                    var ytdl = new YoutubeDL();
+                    // set the path of yt-dlp and FFmpeg if they&#39;re not in PATH or current directory
+                    ytdl.YoutubeDLPath = &quot;C:\\MyScripts\\yt-dlp.exe&quot;;
+                    ytdl.FFmpegPath = &quot;C:\\MyScripts\\yt-dlg\\ffmpeg.exe&quot;;
+                    // optional: set a different download folder
+                    ytdl.OutputFolder = @&quot;C:\Notes\ytDlpTestCSHARP&quot;;
+                    // download a video
+                    var res = await ytdl.RunVideoDownload(&quot;https://www.youtube.com/watch?v=bq9ghmgqoyc&quot;);
+                    // the path of the downloaded file
+                    string path = res.Data;
+
+                    Console.WriteLine($&quot;Pobrano plik: {path}&quot;);
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie filmików YouTube yt_dlp w</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+                    using System.Diagnostics;
+
+                    string youtubeUrl = &quot;https://www.youtube.com/watch?v=dQw4w9WgXcQ&quot;; // &lt;- zamień na sw&#243;j link
+                    string ytDlpPath = @&quot;C:\MyScripts\yt-dlp.exe&quot;;
+                    string ffmpegPath = @&quot;C:\MyScripts\yt-dlg\ffmpeg.exe&quot;;
+                    string outputFolder = @&quot;C:\Notes\ytDlpTestCSHARP\&quot;;
+
+                    DownloadYouTubeAsMp3(youtubeUrl, ytDlpPath, ffmpegPath, outputFolder);
+
+
+                    static void DownloadYouTubeAsMp3(string url, string ytDlpPath, string ffmpegPath, string outputFolder)
+                    {
+                        if (!Directory.Exists(outputFolder))
+                        {
+                            Directory.CreateDirectory(outputFolder);
+                        }
+
+                        // Komenda yt-dlp do pobierania i konwersji na mp3
+                        string arguments = $&quot;--ffmpeg-location \&quot;{ffmpegPath}\&quot; -x --audio-format mp3 -o \&quot;{outputFolder}\\%(title)s.%(ext)s\&quot; \&quot;{url}\&quot;&quot;;
+
+                        ProcessStartInfo psi = new ProcessStartInfo
+                        {
+                            FileName = ytDlpPath,
+                            Arguments = arguments,
+                            UseShellExecute = false,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                            CreateNoWindow = true
+                        };
+
+                        using (Process process = new Process())
+                        {
+                            process.StartInfo = psi;
+
+                            process.OutputDataReceived += (sender, e) =&gt;
+                            {
+                                if (!string.IsNullOrEmpty(e.Data))
+                                    Console.WriteLine(&quot;[yt-dlp] &quot; + e.Data);
+                            };
+
+                            process.ErrorDataReceived += (sender, e) =&gt;
+                            {
+                                if (!string.IsNullOrEmpty(e.Data))
+                                    Console.WriteLine(&quot;[error] &quot; + e.Data);
+                            };
+
+                            process.Start();
+                            process.BeginOutputReadLine();
+                            process.BeginErrorReadLine();
+                            process.WaitForExit();
+                        }
+
+                        Console.WriteLine(&quot;Pobieranie zakończone.&quot;);
+                    }
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/youtube explode.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Pobieranie filmików YouTube EXPLODE w</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+                    using YoutubeExplode;
+                    using YoutubeExplode.Converter;
+
+                    string videoUrl = &quot;https://www.youtube.com/watch?v=dQw4w9WgXcQ&quot;;
+                    string outputFolder = @&quot;C:\Notes\ytDlpTestCSHARP\&quot;;
+
+                    if (!Directory.Exists(outputFolder))
+                        Directory.CreateDirectory(outputFolder);
+
+                    string outputPath = Path.Combine(outputFolder, &quot;output.mp3&quot;);
+
+                    var youtube = new YoutubeClient();
+
+                    await youtube.Videos.DownloadAsync(
+                        videoUrl,
+                        outputPath,
+                        builder =&gt; builder.SetContainer(&quot;mp3&quot;) // &lt;- MP3!
+                    );
+
+                    Console.WriteLine($&quot;Plik zapisany: {outputPath}&quot;);
                 </pre>
             </div>
         </div>
@@ -743,6 +1271,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
             <div class="HeaderTitle GG"> 
@@ -756,23 +1290,23 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
 
                         def transcribe_video(video_path, output_path):
                             try:
-                                model = whisper.load_model("base")
+                                model = whisper.load_model(&quot;base&quot;)
                                 result = model.transcribe(video_path)
 
-                                if not result or "text" not in result:
-                                    print("Transkrypcja nie powiodła się.")
+                                if not result or &quot;text&quot; not in result:
+                                    print(&quot;Transkrypcja nie powiodła się.&quot;)
                                     return
 
-                                with open(output_path, "w", encoding="utf-8") as f:
-                                    f.write(result["text"])
+                                with open(output_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+                                    f.write(result[&quot;text&quot;])
 
-                                print("Transkrypcja została zapisana pomyślnie.")
+                                print(&quot;Transkrypcja została zapisana pomyślnie.&quot;)
                             except Exception as e:
-                                print(f"Wystąpił błąd: {e}")
+                                print(f&quot;Wystąpił błąd: {e}&quot;)
 
-                        if __name__ == "__main__":
-                            video_path  = r"D:\WDI_GRAPHQL.mp4"
-                            output_path = r"D:\WDI_GRAPHQL.txt"
+                        if __name__ == &quot;__main__&quot;:
+                            video_path  = r&quot;D:\WDI_GRAPHQL.mp4&quot;
+                            output_path = r&quot;D:\WDI_GRAPHQL.txt&quot;
                             transcribe_video(video_path, output_path)
 
                     </code>
@@ -824,58 +1358,147 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
 
 
 
+
+
+
+
+
+
+
                         import whisper
                         import threading
                         import time
 
                         def transcribe_video(video_path, output_path):
-                            try:
-                                # Załaduj model Whisper
-                                model = whisper.load_model("base")
+                        try:
+                            # Załaduj model Whisper
+                            model = whisper.load_model(&quot;base&quot;)
 
-                                # Przygotuj mechanizm odliczania czasu
-                                stop_event = threading.Event()
-                                def timer():
-                                    start_time = time.time()
-                                    animation = "|/-\\"
-                                    idx = 0
-                                    while not stop_event.is_set():
-                                        elapsed = int(time.time() - start_time)
-                                        print(f"\rCzas trwania transkrypcji: {elapsed} sek {animation[idx % len(animation)]}", end="", flush=True)
-                                        idx += 1
-                                        time.sleep(1)
-                                    # na koniec nowe wiersz, żeby nie zostać na tej samej linii
-                                    print()
+                            # Przygotuj mechanizm odliczania czasu
+                            stop_event = threading.Event()
+                            def timer():
+                                start_time = time.time()
+                                animation = &quot;|/-\\&quot;
+                                idx = 0
+                                while not stop_event.is_set():
+                                    elapsed = int(time.time() - start_time)
+                                    print(f&quot;\rCzas trwania transkrypcji: {elapsed} sek {animation[idx % len(animation)]}&quot;, end=&quot;&quot;, flush=True)
+                                    idx += 1
+                                    time.sleep(1)
+                                # na koniec nowe wiersz, żeby nie zostać na tej samej linii
+                                print()
 
-                                # Uruchom timer w tle
-                                t = threading.Thread(target=timer)
-                                t.start()
+                            # Uruchom timer w tle
+                            t = threading.Thread(target=timer)
+                            t.start()
 
-                                # Wykonaj transkrypcję (to może chwilę potrwać)
-                                result = model.transcribe(video_path, fp16=False)
+                            # Wykonaj transkrypcję (to może chwilę potrwać)
+                            result = model.transcribe(video_path, fp16=False)
 
-                                # Zatrzymaj timer
-                                stop_event.set()
-                                t.join()
+                            # Zatrzymaj timer
+                            stop_event.set()
+                            t.join()
 
-                                # Sprawdź, czy transkrypcja się powiodła
-                                if not result or "text" not in result:
-                                    print("Transkrypcja nie powiodła się.")
-                                    return
+                            # Sprawdź, czy transkrypcja się powiodła
+                            if not result or &quot;text&quot; not in result:
+                                print(&quot;Transkrypcja nie powiodła się.&quot;)
+                                return
 
-                                # Zapisz transkrypcję do pliku
-                                with open(output_path, "w", encoding="utf-8") as f:
-                                    f.write(result["text"])
+                            # Zapisz transkrypcję do pliku
+                            with open(output_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+                                f.write(result[&quot;text&quot;])
 
-                                print("Transkrypcja została zapisana pomyślnie.")
+                            print(&quot;Transkrypcja została zapisana pomyślnie.&quot;)
 
-                            except Exception as e:
-                                print(f"Wystąpił błąd: {e}")
+                        except Exception as e:
+                            print(f&quot;Wystąpił błąd: {e}&quot;)
 
-                        if __name__ == "__main__":
-                            video_path  = r"D:\WDI_KAFKA.mp4"
-                            output_path = r"D:\WDI_KAFKA.txt"
-                            transcribe_video(video_path, output_path)
+                        if __name__ == &quot;__main__&quot;:
+                        video_path  = r&quot;D:\WDI_KAFKA.mp4&quot;
+                        output_path = r&quot;D:\WDI_KAFKA.txt&quot;
+                        transcribe_video(video_path, output_path)
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">whisper</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        import whisper
+                        from datetime import timedelta
+
+                        def format_timestamp(seconds):
+                            td = timedelta(seconds=seconds)
+                            return str(td)[:-3].replace(&#39;.&#39;, &#39;,&#39;)
+
+                        def transcribe_to_srt(audio_path, srt_path):
+                            model = whisper.load_model(&quot;base&quot;)  # Możesz użyć &quot;small&quot;, &quot;medium&quot; lub &quot;large&quot; dla lepszej dokładności
+                            result = model.transcribe(audio_path)
+                            segments = result[&#39;segments&#39;]
+
+                            with open(srt_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as srt_file:
+                                for i, segment in enumerate(segments, start=1):
+                                    start = format_timestamp(segment[&#39;start&#39;])
+                                    end = format_timestamp(segment[&#39;end&#39;])
+                                    text = segment[&#39;text&#39;].strip()
+                                    srt_file.write(f&quot;{i}\n{start} --&gt; {end}\n{text}\n\n&quot;)
+
+                        # Przykład użycia
+                        transcribe_to_srt(r&quot;D:\WDI_GRAPHQL.mp4&quot;,r&quot;D:\WDI_GRAPHQL.SRT&quot;)
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">whisper</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
+                    <code style="line-height: 28px !important;">
+                        23
+                        0:00:51,600 --&gt; 0:00:54,440
+                        Po raz na jakiś czas patrzę, co się zmienia w grawkulel
+
+                        24
+                        0:00:54,440 --&gt; 0:00:56,320
+                        i jeszcze to w kontekście Cisharpa i Dukneta.
+
+                        25
+                        0:00:56,320 --&gt; 0:00:57,040
+                        Dokładnie.
+
+                        26
+                        0:00:57,520 --&gt; 0:00:59,320
+                        I tak w ten spos&#243;b powstała ta prekcja.
+
+                        27
+                        0:00:59,320 --&gt; 0:01:02,520
+                        No po, mamy mn&#243;stwo zakręć, mn&#243;stwo sposob&#243;w,
                     </code>
                 </pre>
             </div>
@@ -883,7 +1506,631 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
     </section>
     <section class="slide" style="background-color:black">
         <figure>
-            <img class="cover" src="pictures/44.png" alt="blog">
+            <img class="cover" src="pictures/csharp.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/WHISPER IN NET.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">whisper</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        try
+                        {
+                            await transcriber.InitializeAsync(&quot;C:\\MyScripts\\whsipermodel\\ggml-base.bin&quot;);
+
+                            // Transcribe MP3 file
+                            string mp3Result = await transcriber.TranscribeAudioFileAsync(&quot;D:\\PanNiebieski\\Music\\Normal Music\\Cool Kids Of Death\\Cool_kids_of_death\\Cool Kids of death - 009 -piosenki o milosci.mp3&quot;);
+                            Console.WriteLine(&quot;MP3 MUSIC Transcription:&quot;);
+                            Console.WriteLine(mp3Result);
+
+                            // Transcribe MP3 file
+                            string mp3Result2 = await transcriber.TranscribeAudioFileAsync(@&quot;D:\PanNiebieski\Wideo_YouTube\Game Boy Advance： Incredible tech on just 2 AA Batteries.mp3&quot;);
+                            Console.WriteLine(&quot;MP3 Transcription:&quot;);
+                            Console.WriteLine(mp3Result2);
+
+                            // Transcribe video file (audio track will be extracted)
+                            string videoResult = await transcriber.TranscribeAudioFileAsync(&quot;D:\\AQP71kTMf49-qC04Qg4GKGDQtp_tevV-LCUyGn7bhwSjJguThVGSeB0i2sA8ENY3vwnU0YkYa2bu8YEAkNyKcw8e.mp4&quot;);
+                            Console.WriteLine(&quot;\nVideo Transcription:&quot;);
+                            Console.WriteLine(videoResult);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($&quot;Error: {ex.Message}&quot;);
+                        }
+                        finally
+                        {
+                            transcriber.Dispose();
+                        }
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/CSHARP WHISPER.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/CSHARP WHISPER 2.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+    <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Whisper in C#</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        try
+                        {
+                            await transcriber.InitializeAsync(&quot;C:\\MyScripts\\whsipermodel\\ggml-base.bin&quot;);
+
+                            // Transcribe MP3 file
+                            string mp3Result = await transcriber.TranscribeAudioFileAsync(&quot;D:\\PanNiebieski\\Music\\Normal Music\\Cool Kids Of Death\\Cool_kids_of_death\\Cool Kids of death - 009 -piosenki o milosci.mp3&quot;);
+                            Console.WriteLine(&quot;MP3 MUSIC Transcription:&quot;);
+                            Console.WriteLine(mp3Result);
+
+                            // Transcribe MP3 file
+                            string mp3Result2 = await transcriber.TranscribeAudioFileAsync(@&quot;D:\PanNiebieski\Wideo_YouTube\Game Boy Advance： Incredible tech on just 2 AA Batteries.mp3&quot;);
+                            Console.WriteLine(&quot;MP3 Transcription:&quot;);
+                            Console.WriteLine(mp3Result2);
+
+                            // Transcribe video file (audio track will be extracted)
+                            string videoResult = await transcriber.TranscribeAudioFileAsync(&quot;D:\\AQP71kTMf49-qC04Qg4GKGDQtp_tevV-LCUyGn7bhwSjJguThVGSeB0i2sA8ENY3vwnU0YkYa2bu8YEAkNyKcw8e.mp4&quot;);
+                            Console.WriteLine(&quot;\nVideo Transcription:&quot;);
+                            Console.WriteLine(videoResult);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($&quot;Error: {ex.Message}&quot;);
+                        }
+                        finally
+                        {
+                            transcriber.Dispose();
+                        }
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">WhisperTranscriber</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        public class WhisperTranscriber
+                        {
+                            private WhisperFactory whisperFactory;
+                            private WhisperProcessor processor;
+
+                            public async Task InitializeAsync(string modelPath = null)
+                            {
+                                // If no model path provided, download and use a default model
+                                if (string.IsNullOrEmpty(modelPath))
+                                {
+                                    modelPath = await DownloadModelAsync();
+                                }
+
+                                // Verify model file exists
+                                if (!File.Exists(modelPath))
+                                {
+                                    throw new FileNotFoundException($&quot;Whisper model file not found: {modelPath}&quot;);
+                                }
+
+                                // Create Whisper factory and processor
+                                whisperFactory = WhisperFactory.FromPath(modelPath);
+                                processor = whisperFactory.CreateBuilder()
+                                    .WithLanguage(&quot;auto&quot;)
+                                    .Build();
+                            }
+
+                            public async Task&lt;string&gt; TranscribeAudioFileAsync(string inputFilePath)
+                            {
+                                try
+                                {
+                                    string wavFilePath = null;
+
+                                    if (FFmpegConvertToWave.IsFFmpegAvailable() == true)
+                                    {
+                                        wavFilePath = NAudioConvertToWave.ConvertToWav(inputFilePath);
+                                    }
+                                    else
+                                    {
+                                        // Convert to 16kHz mono WAV using FFmpeg
+                                        wavFilePath = await FFmpegConvertToWave.ConvertToWhisperFormatAsync(inputFilePath);
+                                    }
+
+                                    // Transcribe audio
+                                    var fullTranscription = &quot;&quot;;
+
+                                    using (var fileStream = File.OpenRead(wavFilePath))
+                                    {
+                                        await foreach (var segment in processor.ProcessAsync(fileStream))
+                                        {
+                                            Console.WriteLine($&quot;[{segment.Start:hh\\:mm\\:ss} -&gt; {segment.End:hh\\:mm\\:ss}] {segment.Text}&quot;);
+                                            fullTranscription += segment.Text + &quot; &quot;;
+                                        }
+                                    }
+
+                                    // Clean up temporary file if it was created
+                                    if (wavFilePath != inputFilePath &amp;&amp; File.Exists(wavFilePath))
+                                    {
+                                        File.Delete(wavFilePath);
+                                    }
+
+                                    return fullTranscription.Trim();
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception($&quot;Error transcribing audio: {ex.Message}&quot;, ex);
+                                }
+                            }
+
+
+
+                            private async Task&lt;string&gt; DownloadModelAsync()
+                            {
+                                var modelDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), &quot;WhisperModels&quot;);
+                                Directory.CreateDirectory(modelDir);
+
+                                var modelPath = Path.Combine(modelDir, &quot;ggml-base.bin&quot;);
+
+                                if (!File.Exists(modelPath))
+                                {
+                                    Console.WriteLine(&quot;Downloading Whisper base model...&quot;);
+                                    using var client = new HttpClient();
+                                    var url = &quot;https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin&quot;;
+
+                                    try
+                                    {
+                                        var response = await client.GetAsync(url);
+                                        response.EnsureSuccessStatusCode();
+
+                                        await using var fileStream = File.Create(modelPath);
+                                        await response.Content.CopyToAsync(fileStream);
+                                        Console.WriteLine($&quot;Model downloaded to: {modelPath}&quot;);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        throw new Exception($&quot;Failed to download model: {ex.Message}&quot;);
+                                    }
+                                }
+
+                                return modelPath;
+                            }
+
+                            public void Dispose()
+                            {
+                                processor?.Dispose();
+                                whisperFactory?.Dispose();
+                            }
+                        }
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">FFmpegConvertToWave</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        using System.Diagnostics;
+
+                        namespace ConsoleAppWhispernet;
+
+                        public static class FFmpegConvertToWave
+                        {
+                            public static async Task&lt;string&gt; ConvertToWhisperFormatAsync(string inputFilePath)
+                            {
+                                if (!IsFFmpegAvailable())
+                                {
+                                    throw new Exception(&quot;FFmpeg is not available. Please install FFmpeg or add it to your PATH.&quot;);
+                                }
+
+                                var outputPath = Path.ChangeExtension(inputFilePath, &quot;_whisper.wav&quot;);
+
+                                var arguments = $&quot;-i \&quot;{inputFilePath}\&quot; -ar 16000 -ac 1 -c:a pcm_s16le \&quot;{outputPath}\&quot; -y&quot;;
+
+                                var processInfo = new ProcessStartInfo
+                                {
+                                    FileName = &quot;ffmpeg&quot;,
+                                    Arguments = arguments,
+                                    RedirectStandardOutput = true,
+                                    RedirectStandardError = true,
+                                    UseShellExecute = false,
+                                    CreateNoWindow = true
+                                };
+
+                                try
+                                {
+                                    using var process = Process.Start(processInfo);
+                                    if (process == null)
+                                    {
+                                        throw new Exception(&quot;Failed to start FFmpeg process.&quot;);
+                                    }
+
+                                    var errorTask = process.StandardError.ReadToEndAsync();
+                                    var outputTask = process.StandardOutput.ReadToEndAsync();
+
+                                    await process.WaitForExitAsync();
+
+                                    var errorOutput = await errorTask;
+                                    var stdOutput = await outputTask;
+
+                                    if (process.ExitCode != 0)
+                                    {
+                                        throw new Exception($&quot;FFmpeg conversion failed (Exit Code {process.ExitCode}): {errorOutput}&quot;);
+                                    }
+
+                                    if (!File.Exists(outputPath))
+                                    {
+                                        throw new Exception(&quot;FFmpeg conversion completed but output file was not created.&quot;);
+                                    }
+
+                                    return outputPath;
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception($&quot;Error running FFmpeg: {ex.Message}&quot;, ex);
+                                }
+                            }
+
+
+                            public static bool IsFFmpegAvailable()
+                            {
+                                try
+                                {
+                                    var processInfo = new ProcessStartInfo
+                                    {
+                                        FileName = &quot;ffmpeg&quot;,
+                                        Arguments = &quot;-version&quot;,
+                                        RedirectStandardOutput = true,
+                                        UseShellExecute = false,
+                                        CreateNoWindow = true
+                                    };
+
+                                    using var process = Process.Start(processInfo);
+                                    process.WaitForExit();
+                                    return process.ExitCode == 0;
+                                }
+                                catch
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/nAudio.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">NAudioConvertToWave</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        using NAudio.Wave;
+                        using NAudio.Wave.SampleProviders;
+
+                        namespace ConsoleAppWhispernet;
+
+                        public static class NAudioConvertToWave
+                        {
+                            public static string ConvertToWav(string inputFilePath)
+                            {
+                                var extension = Path.GetExtension(inputFilePath).ToLower();
+                                var outputPath = Path.ChangeExtension(inputFilePath, "_16khz.wav");
+
+                                try
+                                {
+                                    using (var reader = CreateAudioReader(inputFilePath, extension))
+                                    {
+                                        var sampleProvider = ConvertTo16KhzMono(reader, out IDisposable resamplerToDispose);
+
+                                        using (resamplerToDispose)
+                                        {
+                                            var waveProvider = new SampleToWaveProvider16(sampleProvider);
+                                            WaveFileWriter.CreateWaveFile(outputPath, waveProvider);
+                                        }
+                                    }
+
+                                    return outputPath;
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception($"Error converting {inputFilePath} to 16kHz WAV: {ex.Message}", ex);
+                                }
+                            }
+
+
+                            private static AudioFileReader CreateAudioReader(string inputFilePath, string extension)
+                            {
+                                if (extension == ".mp3" || extension == ".wav")
+                                {
+                                    return new AudioFileReader(inputFilePath);
+                                }
+                                else
+                                {
+                                    // Convert unsupported formats using MediaFoundationReader to a WAV file in memory
+                                    var tempReader = new MediaFoundationReader(inputFilePath);
+                                    var tempWavPath = Path.GetTempFileName();
+                                    WaveFileWriter.CreateWaveFile(tempWavPath, tempReader);
+                                    tempReader.Dispose();
+
+                                    return new AudioFileReader(tempWavPath);
+                                }
+                            }
+
+                            private static ISampleProvider ConvertTo16KhzMono(AudioFileReader reader, out IDisposable resamplerToDispose)
+                            {
+                                // First, convert to mono if needed
+                                ISampleProvider monoProvider;
+                                if (reader.WaveFormat.Channels == 1)
+                                {
+                                    monoProvider = reader; // Already mono
+                                }
+                                else
+                                {
+                                    monoProvider = new StereoToMonoSampleProvider(reader);
+                                }
+
+                                // Then, resample to 16000 Hz if needed
+                                if (reader.WaveFormat.SampleRate != 16000)
+                                {
+                                    var resampler = new WdlResamplingSampleProvider(monoProvider, 16000);
+                                    resamplerToDispose = reader; // Dispose reader at the end
+                                    return resampler;
+                                }
+
+                                // No resampling needed
+                                resamplerToDispose = reader; // Still need to dispose the reader
+                                return monoProvider;
+                            }
+                        }
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+        <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/1.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/2.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/3.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/4.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/5.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/6.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/7.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/8.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/9.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+            <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/10.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/linkedin.png" alt="blog">
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>
@@ -894,6 +2141,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>     -->
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
             <div class="HeaderTitle GG"> 
@@ -913,6 +2166,50 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
                         # Wyświetl transkrypcję
                         for line in transcript:
                             print(line['text'])
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+           <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/csharp.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+        <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/youtube explode.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">YoutubeExplode IN c#</h2>
+            </div>
+            <div class="PlaceCodeHere ">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+                        using YoutubeExplode;
+
+                        var videoId = &quot;2uLGXe95kTo&quot;;
+                        var youtube = new YoutubeClient();
+
+                        var trackManifest = await youtube.Videos.ClosedCaptions.GetManifestAsync(videoId);
+
+                        // Wybierz ścieżkę w języku angielskim (lub innym, np. &quot;pl&quot; dla polskiego)
+                        var trackInfo = trackManifest.GetByLanguage(&quot;en&quot;) ?? trackManifest.Tracks[0];
+
+                        var captions = await youtube.Videos.ClosedCaptions.GetAsync(trackInfo);
+
+                        var r = captions.TryGetByTime(new TimeSpan(0, 0, 10));
+                        Console.WriteLine(r.Text);
+
+                        foreach (var caption in captions.Captions)
+                        {
+                            Console.WriteLine(caption.Text);
+                        }
                     </code>
                 </pre>
             </div>
@@ -949,6 +2246,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+  <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
             <div class="HeaderTitle GG"> 
@@ -965,7 +2268,7 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
                         # Wywołanie modelu z przykładowym promptem
                         response = client.generate(
                             model="llama3",
-                            prompt="Why is the sky blue?"
+                            prompt="Dlaczego trawa jest zielona?"
                         )
 
                         # Wyświetlenie odpowiedzi
@@ -974,6 +2277,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
                 </pre>
             </div>
         </div>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
     </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
@@ -1086,6 +2395,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+           <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
         <section class="slide prism over bhgry">
         <div class="grid-container">
             <div class="HeaderTitle GG"> 
@@ -1222,6 +2537,12 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+           <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide prism over bhgry">
         <div class="grid-container">
             <div class="HeaderTitle GG"> 
@@ -1375,6 +2696,18 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/cezarywalenciukBlog.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+   <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/cezarywalenciukBlog2.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
           <!--KOD KTORY POBIERA TEKST  -->
                     <!--KOD KTORY POBIERA TEKST CALOSC TEZ  -->
     <!-- <section class="slide" style="background-color:black">
@@ -1383,51 +2716,90 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section> -->
+        <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/csharp.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Zbudowanie SemanticScraper od zera</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 28px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 28px !important;">
+                        using HtmlAgilityPack;
+                        using System.Text;
+                        using System.Text.Json;
+                        string maxDate = &quot;2023-10-01&quot;;
+
+                        string prompt = @$&quot;
+                        Oto zawartość strony internetowej. Wyciągnij listę link&#243;w (adres&#243;w URL) do artykuł&#243;w dostępnych na tej stronie.
+                        Zwr&#243;ć tylko linki (1 link na linię) i tylko te, kt&#243;re są opublikowane od daty {maxDate} włącznie.
+                        Zignoruj reklamy, menu, stopki itd.
+
+                        Treść strony:
+                        {{textContent}}
+                        &quot;;
+
+                        await SemanticScraper.RunAsync(&quot;https://cezarywalenciuk.pl/blog/programing/archive&quot;, prompt);
+
+
+                        class SemanticScraper
+                        {
+                            private static async Task&lt;string&gt; ScrapeHtmlAsync(string url)
+                            {
+                                var web = new HtmlWeb();
+                                var doc = web.Load(url);
+                                return doc.DocumentNode.InnerText;
+                            }
+                            
+                            //odpytywanie ollamy jako REST API bez Microsoft.Extensions.AI
+                            private static async Task&lt;string&gt; QueryOllamaAsync(string prompt)
+                            {
+                                var httpClient = new HttpClient();
+                                var body = new
+                                {
+                                    model = &quot;deepseek-r1:8b&quot;,
+                                    prompt = prompt,
+                                    stream = false
+                                };
+
+                                var json = JsonSerializer.Serialize(body);
+                                var content = new StringContent(json, Encoding.UTF8, &quot;application/json&quot;);
+                                var response = await httpClient.PostAsync(&quot;http://localhost:11434/api/generate&quot;, content);
+                                return await response.Content.ReadAsStringAsync();
+                            }
+
+                            public static async Task RunAsync(string url, string prompt)
+                            {
+                                Console.WriteLine($&quot;Scraping: {url}&quot;);
+                                var textContent = await ScrapeHtmlAsync(url);
+                                prompt = prompt.Replace(&quot;{textContent}&quot;, textContent);
+
+                                var response = await QueryOllamaAsync(prompt);
+                                Console.WriteLine(&quot;Wynik z LLM:\n&quot;);
+                                Console.WriteLine(response);
+                            }
+                        }
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/python.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/sgai-hero.png" alt="blog">
             <figcaption class="white">CW</figcaption>
         </figure>
-    </section>
-    <section class="slide prism over bhgry">
-        <div class="grid-container">
-            <div class="HeaderTitle GG"> 
-                <h2 class="headerCODE GG">SmartScraperGraph</h2>
-            </div>
-            <div class="PlaceCodeHere canscroll">
-                <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
-                    <code style="line-height: 28px !important;">
-                        from scrapegraphai.graphs import SmartScraperGraph
-                        from scrapegraphai.llms import OllamaLLM
-
-                        # Konfiguracja lokalnego LLM (w tym przypadku Ollama)
-                        llm_config = {
-                            "llm": OllamaLLM(model="llama3"),
-                            "verbose": True
-                        }
-
-                        # Źródło do przeszukania
-                        website_url = "https://en.wikipedia.org/wiki/Python_(programming_language)"
-
-                        # Pytanie do zadania agentowi
-                        question = "Jakie są główne cechy języka Python?"
-
-                        # Utworzenie grafu
-                        graph_config = {
-                            "prompt": question,
-                            "website": website_url
-                        }
-
-                        # Utwórz SmartScraperGraph z lokalnym LLM
-                        graph = SmartScraperGraph(config=graph_config, llm=llm_config["llm"])
-
-                        # Wykonanie zapytania
-                        result = graph.run()
-                        print("🔍 Wynik:", result)
-                    </code>
-                </pre>
-            </div>
-        </div>
     </section>
         <section class="slide prism over bhgry">
         <div class="grid-container">
@@ -1437,125 +2809,188 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <div class="PlaceCodeHere canscroll">
                 <pre style="font-size: 28px;overflow: hidden;  " class="language-python">
                     <code style="line-height: 28px !important;">
-                        import os
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         from datetime import datetime, timedelta
                         from scrapegraphai.graphs import SmartScraperGraph
                         from scrapegraphai.utils import prettify_exec_info
 
                         # Konfiguracja dla Ollama (lokalny model)
                         graph_config = {
-                            "llm": {
-                                "model": "ollama/llama3.2:3b",  # lub inny model dostępny w Ollama
-                                "temperature": 0.1,
-                                "base_url": "http://localhost:11434",  # domyślny port Ollama
+                            &quot;llm&quot;: {
+                        &quot;model&quot;: &quot;ollama/llama3.2:3b&quot;,  # lub inny model dostępny w Ollama
+                        &quot;temperature&quot;: 0.1,
+                        &quot;base_url&quot;: &quot;http://localhost:11434&quot;,  # domyślny port Ollama
                             },
-                            "verbose": True,
-                            "headless": True,
+                            &quot;verbose&quot;: True,
+                            &quot;headless&quot;: True,
                         }
 
                         def find_recent_articles(url, target_month_year, max_articles=10):
-                            """
+                            &quot;&quot;&quot;
                             Znajdź najnowsze artykuły z określonego miesiąca i roku
                             
                             Args:
-                                url: URL strony do przeszukania
-                                target_month_year: format "YYYY-MM" (np. "2024-12")
-                                max_articles: maksymalna liczba artykułów do znalezienia
-                            """
+                        url: URL strony do przeszukania
+                        target_month_year: format &quot;YYYY-MM&quot; (np. &quot;2024-12&quot;)
+                        max_articles: maksymalna liczba artykuł&#243;w do znalezienia
+                            &quot;&quot;&quot;
                             
-                            # Prompt instruujący AI jak znaleźć i filtrować artykuły
-                            prompt = f"""
-                            Znajdź wszystkie linki do artykułów z tej strony, które zostały opublikowane w {target_month_year}.
-                            
-                            Dla każdego artykułu zwróć:
-                            1. Tytuł artykułu
-                            2. Pełny URL/link do artykułu
-                            3. Datę publikacji (jeśli dostępna)
-                            4. Krótki opis lub fragment (jeśli dostępny)
-                            
-                            Sortuj wyniki od najnowszych do najstarszych.
-                            Ogranicz wyniki do maksymalnie {max_articles} artykułów.
-                            
-                            Zwróć wyniki w formacie JSON jako listę obiektów z polami:
-                            - title
-                            - url
-                            - publication_date
-                            - description
-                            """
-                            
-                            try:
-                                # Tworzenie grafu scrapującego
-                                smart_scraper_graph = SmartScraperGraph(
-                                    prompt=prompt,
-                                    source=url,
-                                    config=graph_config
-                                )
-                                
-                                # Wykonanie scrapowania
-                                result = smart_scraper_graph.run()
-                                
-                                return result
-                                
-                            except Exception as e:
-                                print(f"Błąd podczas scrapowania: {e}")
-                                return None
+                            # Bardziej precyzyjny prompt z przykładem
+                            prompt = f&quot;&quot;&quot;
+                            Przeskanuj stronę pod adresem {url} i znajdź wszystkie linki do artykuł&#243;w opublikowanych w miesiącu {target_month_year}.
 
+                            WAŻNE: Odpowiedź musi być WYŁĄCZNIE w formacie JSON. Nie dodawaj żadnego tekstu przed ani po JSON-ie.
+
+                            Format odpowiedzi (przykład):
+                            [
+                        {{
+                            &quot;title&quot;: &quot;Tytuł artykułu&quot;,
+                            &quot;url&quot;: &quot;https://example.com/article1&quot;,
+                            &quot;publication_date&quot;: &quot;2024-12-15&quot;,
+                            &quot;description&quot;: &quot;Opis artykułu&quot;
+                        }},
+                        {{
+                            &quot;title&quot;: &quot;Drugi artykuł&quot;,
+                            &quot;url&quot;: &quot;https://example.com/article2&quot;, 
+                            &quot;publication_date&quot;: &quot;2024-12-10&quot;,
+                            &quot;description&quot;: &quot;Opis drugiego artykułu&quot;
+                        }}
+                            ]
+
+                            Maksymalnie {max_articles} artykuł&#243;w. Odpowiedź musi być czystym JSON-em bez dodatkowego tekstu.
+                            &quot;&quot;&quot;
+
+                            try:
+                        # Tworzenie grafu scrapującego
+                        smart_scraper_graph = SmartScraperGraph(
+                            prompt=prompt,
+                            source=url,
+                            config=graph_config
+                        )
+
+                        # Wykonanie scrapowania
+                        result = smart_scraper_graph.run()
+
+                        # Pr&#243;ba wyciągnięcia JSON-a z odpowiedzi
+                        cleaned_result = extract_json_from_response(result)
+
+                        return cleaned_result
+
+                            except Exception as e:
+                        print(f&quot;Błąd podczas scrapowania: {e}&quot;)
+                        if hasattr(e, &#39;llm_output&#39;):
+                            print(f&quot;LLM Output: {e.llm_output}&quot;)
+                        return None
+                            
                         def find_articles_with_keywords(url, keywords, date_filter=None):
-                            """
+                            &quot;&quot;&quot;
                             Znajdź artykuły zawierające określone słowa kluczowe
                             
                             Args:
-                                url: URL strony do przeszukania  
-                                keywords: lista słów kluczowych
-                                date_filter: opcjonalny filtr daty (format "YYYY-MM")
-                            """
+                        url: URL strony do przeszukania  
+                        keywords: lista sł&#243;w kluczowych
+                        date_filter: opcjonalny filtr daty (format &quot;YYYY-MM&quot;)
+                            &quot;&quot;&quot;
                             
-                            keywords_str = ", ".join(keywords)
-                            date_condition = f" opublikowane w {date_filter}" if date_filter else ""
+                            keywords_str = &quot;, &quot;.join(keywords)
+                            date_condition = f&quot; opublikowane w {date_filter}&quot; if date_filter else &quot;&quot;
                             
-                            prompt = f"""
-                            Znajdź wszystkie artykuły na tej stronie, które zawierają którekolwiek z następujących słów kluczowych: {keywords_str}{date_condition}.
+                            prompt = f&quot;&quot;&quot;
+                            Znajdź wszystkie artykuły na tej stronie, kt&#243;re zawierają kt&#243;rekolwiek z następujących sł&#243;w kluczowych: {keywords_str}{date_condition}.
                             
-                            Dla każdego pasującego artykułu zwróć:
+                            Dla każdego pasującego artykułu zwr&#243;ć:
                             1. Tytuł
                             2. Pełny URL
                             3. Datę publikacji
                             4. Fragment tekstu zawierający słowo kluczowe
-                            5. Które słowo kluczowe zostało znalezione
+                            5. Kt&#243;re słowo kluczowe zostało znalezione
                             
                             Sortuj wyniki według relevancji i daty publikacji.
                             
-                            Format odpowiedzi: JSON lista obiektów z polami:
+                            Format odpowiedzi: JSON lista obiekt&#243;w z polami:
                             - title
                             - url  
                             - publication_date
                             - relevant_snippet
                             - matched_keywords
-                            """
+                            &quot;&quot;&quot;
                             
                             try:
-                                smart_scraper_graph = SmartScraperGraph(
-                                    prompt=prompt,
-                                    source=url,
-                                    config=graph_config
-                                )
-                                
-                                result = smart_scraper_graph.run()
-                                return result
-                                
+                        smart_scraper_graph = SmartScraperGraph(
+                            prompt=prompt,
+                            source=url,
+                            config=graph_config
+                        )
+
+                        result = smart_scraper_graph.run()
+                        return result
+
                             except Exception as e:
-                                print(f"Błąd podczas wyszukiwania z słowami kluczowymi: {e}")
-                                return None
+                        print(f&quot;Błąd podczas wyszukiwania z słowami kluczowymi: {e}&quot;)
+                        return None
 
                         def scrape_news_website_articles(url, days_back=30):
-                            """
-                            Scrape artykułów z witryny informacyjnej z ostatnich N dni
-                            """
+                            &quot;&quot;&quot;
+                            Scrape artykuł&#243;w z witryny informacyjnej z ostatnich N dni
+                            &quot;&quot;&quot;
                             
                             target_date = datetime.now() - timedelta(days=days_back)
-                            date_str = target_date.strftime("%Y-%m-%d")
+                            date_str = target_date.strftime(&quot;%Y-%m-%d&quot;)
                             
-                            prompt = f"""
+                            prompt = f&quot;&quot;&quot;
                             Przeanalizuj tę stronę internetową i znajdź wszystkie artykuły informacyjne 
                             opublikowane od {date_str} do dzisiaj.
                             
@@ -1573,103 +3008,131 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
                             - Menu nawigacyjne
                             - Stopki strony
                             
-                            Zwróć wyniki jako JSON array z obiektami zawierającymi pola:
+                            Zwr&#243;ć wyniki jako JSON array z obiektami zawierającymi pola:
                             title, url, publication_date, author, category, preview
                             
                             Sortuj chronologicznie od najnowszych.
-                            """
+                            &quot;&quot;&quot;
                             
                             try:
-                                smart_scraper_graph = SmartScraperGraph(
-                                    prompt=prompt,
-                                    source=url,
-                                    config=graph_config
-                                )
-                                
-                                result = smart_scraper_graph.run()
-                                return result
-                                
+                        smart_scraper_graph = SmartScraperGraph(
+                            prompt=prompt,
+                            source=url,
+                            config=graph_config
+                        )
+
+                        result = smart_scraper_graph.run()
+                        return result
+
                             except Exception as e:
-                                print(f"Błąd podczas scrapowania witryny informacyjnej: {e}")
-                                return None
+                        print(f&quot;Błąd podczas scrapowania witryny informacyjnej: {e}&quot;)
+                        return None
 
                         # Przykłady użycia
-                        if __name__ == "__main__":
+                        if __name__ == &quot;__main__&quot;:
                             
                             # Upewnij się, że Ollama jest uruchomiona lokalnie
-                            print("Sprawdzanie połączenia z Ollama...")
+                            print(&quot;Sprawdzanie połączenia z Ollama...&quot;)
                             
                             # Przykład 1: Znajdź artykuły z grudnia 2024
-                            print("\n=== Wyszukiwanie artykułów z grudnia 2024 ===")
-                            url1 = "https://cezarywalenciuk.pl/blog/programing/archive"  # Zastąp prawdziwym URL
+                            print(&quot;\n=== Wyszukiwanie artykuł&#243;w===&quot;)
+                            url1 = &quot;https://cezarywalenciuk.pl/blog/programing/archive&quot;  # Zastąp prawdziwym URL
                             
-                            articles_dec_2024 = find_recent_articles(url1, "2022-12", max_articles=5)
+                            articles_blog = find_recent_articles(url1, &quot;2022-12&quot;, max_articles=5)
                             
-                            if articles_dec_2024:
-                                print("Znalezione artykuły:")
-                                print(articles_dec_2024)
+                            if articles_blog:
+                        print(&quot;Znalezione artykuły:&quot;)
+                        print(articles_blog)
                             
                             # Przykład 2: Wyszukaj artykuły ze słowami kluczowymi
-                            print("\n=== Wyszukiwanie artykułów ze słowami kluczowymi ===")
-                            keywords = ["C#", "ASP.NET", "Windows"]
+                            print(&quot;\n=== Wyszukiwanie artykuł&#243;w ze słowami kluczowymi ===&quot;)
+                            keywords = [&quot;C#&quot;, &quot;ASP.NET&quot;, &quot;Windows&quot;]
                             
                             keyword_articles = find_articles_with_keywords(
-                                url1, 
-                                keywords, 
-                                date_filter="2021-12"
+                        url1, 
+                        keywords, 
+                        date_filter=&quot;2022-12&quot;
                             )
                             
                             if keyword_articles:
-                                print("Artykuły ze słowami kluczowymi:")
-                                print(keyword_articles)
+                        print(&quot;Artykuły ze słowami kluczowymi:&quot;)
+                        print(keyword_articles)
                             
                             # Przykład 3: Scraping witryny informacyjnej z ostatnich 7 dni
-                            print("\n=== Najnowsze artykuły z ostatnich 900 dni ===")
-                            news_url = "https://cezarywalenciuk.pl/blog/programing/archive"  # Zastąp prawdziwym URL
+                            print(&quot;\n=== Najnowsze artykuły z ostatnich 900 dni ===&quot;)
+                            news_url = &quot;https://cezarywalenciuk.pl/blog/programing/archive&quot;  # Zastąp prawdziwym URL
                             
                             recent_news = scrape_news_website_articles(news_url, days_back=900)
                             
                             if recent_news:
-                                print("Najnowsze artykuły:")
-                                print(recent_news)
+                        print(&quot;Najnowsze artykuły:&quot;)
+                        print(recent_news)
 
-                        # Funkcja pomocnicza do ładnego wyświetlania wyników
+                        # Funkcja pomocnicza do ładnego wyświetlania wynik&#243;w
                         def display_articles(articles_data, max_display=5):
-                            """Wyświetl artykuły w czytelnym formacie"""
+                            &quot;&quot;&quot;Wyświetl artykuły w czytelnym formacie&quot;&quot;&quot;
                             
                             if not articles_data:
-                                print("Brak danych do wyświetlenia")
-                                return
+                        print(&quot;Brak danych do wyświetlenia&quot;)
+                        return
                             
-                            # Jeśli wynik jest stringiem JSON, spróbuj go sparsować
+                            # Jeśli wynik jest stringiem JSON, spr&#243;buj go sparsować
                             if isinstance(articles_data, str):
-                                import json
-                                try:
-                                    articles_data = json.loads(articles_data)
-                                except:
-                                    print("Nie można sparsować danych JSON")
-                                    print(articles_data)
-                                    return
+                        import json
+                        try:
+                            articles_data = json.loads(articles_data)
+                        except:
+                            print(&quot;Nie można sparsować danych JSON&quot;)
+                            print(articles_data)
+                            return
                             
-                            # Jeśli to lista artykułów
+                            # Jeśli to lista artykuł&#243;w
                             if isinstance(articles_data, list):
-                                print(f"\nZnaleziono {len(articles_data)} artykułów:")
-                                print("=" * 60)
-                                
-                                for i, article in enumerate(articles_data[:max_display]):
-                                    print(f"\n{i+1}. {article.get('title', 'Brak tytułu')}")
-                                    print(f"   URL: {article.get('url', 'Brak URL')}")
-                                    print(f"   Data: {article.get('publication_date', 'Brak daty')}")
-                                    if article.get('description'):
-                                        print(f"   Opis: {article['description'][:100]}...")
+                        print(f&quot;\nZnaleziono {len(articles_data)} artykuł&#243;w:&quot;)
+                        print(&quot;=&quot; * 60)
+
+                        for i, article in enumerate(articles_data[:max_display]):
+                            print(f&quot;\n{i+1}. {article.get(&#39;title&#39;, &#39;Brak tytułu&#39;)}&quot;)
+                            print(f&quot;   URL: {article.get(&#39;url&#39;, &#39;Brak URL&#39;)}&quot;)
+                            print(f&quot;   Data: {article.get(&#39;publication_date&#39;, &#39;Brak daty&#39;)}&quot;)
+                            if article.get(&#39;description&#39;):
+                                print(f&quot;   Opis: {article[&#39;description&#39;][:100]}...&quot;)
                             else:
-                                print("Wyniki:")
-                                print(articles_data)
+                        print(&quot;Wyniki:&quot;)
+                        print(articles_data)
                     </code>
                 </pre>
             </div>
         </div>
     </section>
+    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/lokalnyLLMniedaje.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+                <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/11.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+                    <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/12.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+                        <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/2/13.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+ 
+          <!--   jak tworzyć podsumowania i zarządzać nimi lokalnie lub online, -->
+          <!--   jak tworzyć podsumowania i zarządzać nimi lokalnie lub online, -->
+                       <!--   jak tworzyć podsumowania i zarządzać nimi lokalnie lub online, -->
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/72.png" alt="blog">
