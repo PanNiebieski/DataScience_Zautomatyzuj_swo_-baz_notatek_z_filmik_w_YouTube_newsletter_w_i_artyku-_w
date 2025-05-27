@@ -6464,7 +6464,686 @@ Omówimy, czy warto budować rozwiązanie od podstaw, czy lepiej skorzystać z g
             <figcaption class="white">CW</figcaption>
         </figure>
     </section>
-  
+              <section class="slide" style="background-color:black">
+        <figure>
+            <img class="cover" src="pictures/WeCantSpell.png" alt="blog">
+            <figcaption class="white">CW</figcaption>
+        </figure>
+    </section>
+        <section class="slide prism over bhgry">
+        <div class="grid-container">
+            <div class="HeaderTitle GG"> 
+                <h2 class="headerCODE GG">Sprawdzenie jakość tekstu</h2>
+            </div>
+            <div class="PlaceCodeHere canscroll">
+                <pre style="font-size: 19px;overflow: hidden;  " class="language-csharp">
+                    <code style="line-height: 19px !important;">
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        using System.Text;
+                        using System.Text.RegularExpressions;
+                        using WeCantSpell.Hunspell;
+
+                        // Zapewniamy poprawne kodowanie polskich znak&#243;w w konsoli
+                        Console.OutputEncoding = Encoding.UTF8;
+
+                        string folder = &quot;dictionaries_UTF-8&quot;;
+                        string language = &quot;pl_PL&quot;;
+
+                        // Przykładowy tekst OCR do oceny
+                        string ocrText = &quot;ING BANK To jest przykładowy tekst z OCR, kt&#243;ry zawiera polskie znaki. A to telefon : 555 555 111&quot;;
+
+                        // Test słownika - sprawdzenie podstawowych polskich sł&#243;w
+                        // Jeśli to nie działa to nic nie ma sensu
+                        TestDictionary(language, folder);
+
+                        double score = AssessOcrQuality(ocrText, language, folder);
+                        int rating = ConvertScoreToRating(score);
+
+                        Console.WriteLine($&quot;Tekst OCR: {ocrText}&quot;);
+                        Console.WriteLine($&quot;Wynik oceny: {score:F2}&quot;);
+                        Console.WriteLine($&quot;Ocena jakości (0-5): {rating}&quot;);
+
+                        // Szczeg&#243;łowa analiza
+                        var report = AnalyzeOcrQualityDetailed(ocrText, language, folder);
+                        Console.WriteLine(&quot;\nSzczeg&#243;łowy raport:&quot;);
+                        Console.WriteLine(report);
+
+                        try
+                        {
+                            Guid guid = Guid.NewGuid();
+                            File.WriteAllLines($&quot;wordThatMaybeShouldBeAdded/{guid}.txt&quot;, report.InvalidWordsList);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($&quot;An error occurred: {ex.Message}&quot;);
+                        }
+
+
+                        /// &lt;summary&gt;
+                        /// Testuje słownik na podstawowych polskich słowach
+                        /// &lt;/summary&gt;
+                        /// &lt;param name=&quot;language&quot;&gt;Kod języka słownika&lt;/param&gt;
+                        static void TestDictionary(string language, string folder)
+                        {
+                            try
+                            {
+                                Console.WriteLine(&quot;Testowanie słownika...&quot;);
+                                var dictionaryPath = $&quot;{folder}/{language}&quot;;
+
+                                // Sprawdź czy pliki słownika istnieją
+                                if (!File.Exists($&quot;{dictionaryPath}.dic&quot;))
+                                    Console.WriteLine($&quot;BŁĄD: Plik słownika {dictionaryPath}.dic nie istnieje!&quot;);
+
+                                if (!File.Exists($&quot;{dictionaryPath}.aff&quot;))
+                                    Console.WriteLine($&quot;BŁĄD: Plik słownika {dictionaryPath}.aff nie istnieje!&quot;);
+
+                                if (!File.Exists($&quot;{dictionaryPath}.dic&quot;) || !File.Exists($&quot;{dictionaryPath}.aff&quot;))
+                                {
+                                    Console.WriteLine(&quot;Nie można znaleźć plik&#243;w słownika. Sprawdź ścieżkę i nazwy plik&#243;w.&quot;);
+                                    return;
+                                }
+
+                                var dictionary = WordList.CreateFromFiles($&quot;{dictionaryPath}.dic&quot;, $&quot;{dictionaryPath}.aff&quot;);
+
+                                // Spr&#243;buj:
+                                //var dictionaryData = File.ReadAllText($&quot;{dictionaryPath}.dic&quot;, Encoding.UTF8);
+                                //var affixData = File.ReadAllText($&quot;{dictionaryPath}.aff&quot;, Encoding.UTF8);
+                                //var dictionary = WordList.CreateFromStreams(
+                                //    new MemoryStream(Encoding.UTF8.GetBytes(dictionaryData)),
+                                //    new MemoryStream(Encoding.UTF8.GetBytes(affixData))
+                                //);
+
+                                // Lista podstawowych polskich sł&#243;w do testowania
+                                var testWords = new[] {
+                                        &quot;dom&quot;, &quot;kot&quot;, &quot;pies&quot;, &quot;przykładowy&quot;, &quot;zawiera&quot;, &quot;tekst&quot;,
+                                        &quot;polski&quot;, &quot;język&quot;, &quot;słownik&quot;, &quot;komputer&quot;
+                                    };
+
+                                Console.WriteLine(&quot;Wyniki testu słownika:&quot;);
+                                foreach (var word in testWords)
+                                {
+                                    bool isWordRecognized = dictionary.Check(word);
+                                    Console.WriteLine($&quot;  - {word}: {(isWordRecognized ? &quot;rozpoznane&quot; : &quot;nierozpoznane&quot;)}&quot;);
+
+                                    if (!isWordRecognized)
+                                    {
+                                        var suggestions = dictionary.Suggest(word).Take(3);
+                                        Console.WriteLine($&quot;    Sugestie: {string.Join(&quot;, &quot;, suggestions)}&quot;);
+                                    }
+                                }
+
+                                Console.WriteLine(&quot;Test słownika zakończony.\n&quot;);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($&quot;Błąd podczas testowania słownika: {ex.Message}&quot;);
+                                Console.WriteLine($&quot;Stack trace: {ex.StackTrace}&quot;);
+                            }
+                        }
+
+                        /// &lt;summary&gt;
+                        /// Ocena jakości tekstu OCR przy użyciu metody słownikowej
+                        /// &lt;/summary&gt;
+                        /// &lt;param name=&quot;text&quot;&gt;Tekst OCR do oceny&lt;/param&gt;
+                        /// &lt;param name=&quot;language&quot;&gt;Kod języka (np. &quot;pl_PL&quot; dla polskiego)&lt;/param&gt;
+                        /// &lt;returns&gt;Wsp&#243;łczynnik jakości (0.0-1.0)&lt;/returns&gt;
+                        static double AssessOcrQuality(string text, string language, string folder)
+                        {
+                            try
+                            {
+                                // Załadowanie słownika Hunspell
+                                var dictionaryPath = $&quot;{folder}/{language}&quot;;
+                                var dictionary = WordList.CreateFromFiles($&quot;{dictionaryPath}.dic&quot;, $&quot;{dictionaryPath}.aff&quot;);
+
+                                // Dzielenie tekstu na słowa z zachowaniem polskich znak&#243;w
+                                var words = ExtractWords(text);
+
+                                if (words.Length == 0)
+                                    return 0.0;
+
+                                // Lista rozpoznanych i nierozpoznanych sł&#243;w dla diagnostyki
+                                List&lt;string&gt; recognizedWords = new List&lt;string&gt;();
+                                List&lt;string&gt; unrecognizedWords = new List&lt;string&gt;();
+
+                                // Zliczanie sł&#243;w, kt&#243;re istnieją w słowniku
+                                int validWords = 0;
+                                foreach (var word in words)
+                                {
+                                    if (dictionary.Check(word))
+                                    {
+                                        validWords++;
+                                        recognizedWords.Add(word);
+                                    }
+                                    else
+                                    {
+                                        unrecognizedWords.Add(word);
+                                    }
+                                }
+
+                                // Diagnostyka - wypisz rozpoznane i nierozpoznane słowa
+                                Console.WriteLine(&quot;\nDiagnostyka słownika:&quot;);
+                                Console.WriteLine($&quot;Rozpoznane słowa ({recognizedWords.Count}): {string.Join(&quot;, &quot;, recognizedWords)}&quot;);
+                                Console.WriteLine($&quot;Nierozpoznane słowa ({unrecognizedWords.Count}): {string.Join(&quot;, &quot;, unrecognizedWords)}&quot;);
+
+                                // Obliczanie wsp&#243;łczynnika jakości
+                                double qualityScore = (double)validWords / words.Length;
+
+                                // Uwzględnienie długości tekstu (kr&#243;tkie teksty mogą być mniej wiarygodne)
+                                double lengthFactor = Math.Min(1.0, words.Length / 20.0);
+                                qualityScore *= (0.7 + 0.3 * lengthFactor);
+
+                                return qualityScore;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($&quot;Błąd podczas oceny jakości OCR: {ex.Message}&quot;);
+                                return 0.0;
+                            }
+                        }
+
+                        /// &lt;summary&gt;
+                        /// Konwertuje wsp&#243;łczynnik jakości (0.0-1.0) na ocenę w skali 0-5
+                        /// &lt;/summary&gt;
+                        /// &lt;param name=&quot;score&quot;&gt;Wsp&#243;łczynnik jakości (0.0-1.0)&lt;/param&gt;
+                        /// &lt;returns&gt;Ocena w skali 0-5&lt;/returns&gt;
+                        static int ConvertScoreToRating(double score)
+                        {
+                            // Mapowanie wsp&#243;łczynnika jakości na skalę 0-5
+                            if (score &lt; 0.2) return 0;
+                            if (score &lt; 0.4) return 1;
+                            if (score &lt; 0.6) return 2;
+                            if (score &lt; 0.75) return 3;
+                            if (score &lt; 0.9) return 4;
+                            return 5;
+                        }
+
+                        /// &lt;summary&gt;
+                        /// Wyodrębnia słowa z tekstu, zachowując znaki diakrytyczne
+                        /// &lt;/summary&gt;
+                        /// &lt;param name=&quot;text&quot;&gt;Tekst do analizy&lt;/param&gt;
+                        /// &lt;returns&gt;Tablica wyodrębnionych sł&#243;w&lt;/returns&gt;
+                        static string[] ExtractWords(string text)
+                        {
+                            // Konwersja do małych liter z zachowaniem polskich znak&#243;w
+                            text = text.ToLowerInvariant();
+
+                            // Używamy wyrażenia regularnego obsługującego znaki Unicode
+                            return Regex.Split(text, @&quot;[^\p{L}]+&quot;)
+                                        .Where(w =&gt; !string.IsNullOrWhiteSpace(w))
+                                        .ToArray();
+                        }
+
+                        /// &lt;summary&gt;
+                        /// Szczeg&#243;łowa analiza jakości OCR
+                        /// &lt;/summary&gt;
+                        /// &lt;param name=&quot;text&quot;&gt;Tekst OCR do oceny&lt;/param&gt;
+                        /// &lt;param name=&quot;language&quot;&gt;Kod języka (np. &quot;pl_PL&quot; dla polskiego)&lt;/param&gt;
+                        /// &lt;returns&gt;Szczeg&#243;łowe informacje o jakości OCR&lt;/returns&gt;
+                        static OcrQualityReport AnalyzeOcrQualityDetailed(string text, string language, string folder)
+                        {
+                            try
+                            {
+                                var dictionaryPath = $&quot;{folder}/{language}&quot;;
+
+                                // Używamy niestandardowego słownika, jeśli istnieje
+                                var dictionaryToUse = dictionaryPath;
+                                if (!File.Exists($&quot;{dictionaryPath}.dic&quot;) || !File.Exists($&quot;{dictionaryPath}.aff&quot;))
+                                {
+                                    Console.WriteLine($&quot;UWAGA: Słownik {dictionaryPath} nie istnieje, pr&#243;ba użycia słownika systemowego...&quot;);
+                                    // Może być potrzebna inna lokalizacja słownika systemowego
+                                    dictionaryToUse = &quot;pl&quot;;
+                                }
+
+                                var dictionary = WordList.CreateFromFiles($&quot;{dictionaryToUse}.dic&quot;, $&quot;{dictionaryToUse}.aff&quot;);
+
+                                // Wyodrębnienie sł&#243;w z tekstu
+                                var words = ExtractWords(text);
+
+                                List&lt;string&gt; validWords = new List&lt;string&gt;();
+                                List&lt;string&gt; invalidWords = new List&lt;string&gt;();
+                                Dictionary&lt;string, List&lt;string&gt;&gt; suggestions = new Dictionary&lt;string, List&lt;string&gt;&gt;();
+
+                                // Zbi&#243;r znanych sł&#243;w kluczowych - słownikowe rozszerzenie
+                                HashSet&lt;string&gt; knownKeywords = new HashSet&lt;string&gt;(StringComparer.InvariantCultureIgnoreCase)
+                                    {
+                                        &quot;ocr&quot;, &quot;pdf&quot;, &quot;xml&quot;, &quot;jpeg&quot;, &quot;png&quot;, &quot;tiff&quot;
+                                    };
+
+                                foreach (var word in words)
+                                {
+                                    // Specjalne traktowanie dla akronim&#243;w i znanych sł&#243;w kluczowych
+                                    if (knownKeywords.Contains(word))
+                                    {
+                                        validWords.Add(word);
+                                        continue;
+                                    }
+
+                                    if (dictionary.Check(word))
+                                        validWords.Add(word);
+                                    else
+                                    {
+                                        invalidWords.Add(word);
+
+                                        // Pobierz sugestie poprawek dla niepoprawnych sł&#243;w
+                                        var wordSuggestions = dictionary.Suggest(word)
+                                                                    .ToList();
+
+                                        if (wordSuggestions.Any())
+                                            suggestions[word] = wordSuggestions;
+
+                                        // Jeśli słowo ma sugestię samego siebie, to oznacza problem ze słownikiem
+                                        if (wordSuggestions.Contains(word))
+                                        {
+                                            Console.WriteLine($&quot;UWAGA: Słowo &#39;{word}&#39; nie jest rozpoznawane przez słownik, &quot; +
+                                                            $&quot;ale jest sugerowane jako poprawka dla samego siebie!&quot;);
+                                        }
+                                    }
+                                }
+
+                                double qualityScore = words.Length &gt; 0 ? (double)validWords.Count / words.Length : 0;
+                                int rating = ConvertScoreToRating(qualityScore);
+
+                                return new OcrQualityReport
+                                {
+                                    TotalWords = words.Length,
+                                    ValidWords = validWords.Count,
+                                    InvalidWords = invalidWords.Count,
+                                    InvalidWordsList = invalidWords,
+                                    ValidWordsList = validWords,
+                                    Suggestions = suggestions,
+                                    QualityScore = qualityScore,
+                                    Rating = rating,
+                                    UsedDictionary = dictionaryToUse
+                                };
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($&quot;Błąd podczas szczeg&#243;łowej analizy OCR: {ex.Message}&quot;);
+                                return new OcrQualityReport
+                                {
+                                    TotalWords = 0,
+                                    ValidWords = 0,
+                                    InvalidWords = 0,
+                                    QualityScore = 0,
+                                    Rating = 0,
+                                    ErrorMessage = ex.Message
+                                };
+                            }
+                        }
+
+                        /// &lt;summary&gt;
+                        /// Klasa przechowująca szczeg&#243;łowe informacje o jakości OCR
+                        /// &lt;/summary&gt;
+                        public class OcrQualityReport
+                        {
+                            public int TotalWords { get; set; }
+                            public int ValidWords { get; set; }
+                            public int InvalidWords { get; set; }
+                            public List&lt;string&gt; ValidWordsList { get; set; } = new List&lt;string&gt;();
+                            public List&lt;string&gt; InvalidWordsList { get; set; } = new List&lt;string&gt;();
+                            public Dictionary&lt;string, List&lt;string&gt;&gt; Suggestions { get; set; } = new Dictionary&lt;string, List&lt;string&gt;&gt;();
+                            public double QualityScore { get; set; }
+                            public int Rating { get; set; }
+                            public string? UsedDictionary { get; set; }
+                            public string? ErrorMessage { get; set; }
+
+                            public override string ToString()
+                            {
+                                if (!string.IsNullOrEmpty(ErrorMessage))
+                                {
+                                    return $&quot;Błąd: {ErrorMessage}&quot;;
+                                }
+
+                                var result = $&quot;Łącznie sł&#243;w: {TotalWords}\n&quot; +
+                                    $&quot;Poprawnych sł&#243;w: {ValidWords}\n&quot; +
+                                    $&quot;Niepoprawnych sł&#243;w: {InvalidWords}\n&quot; +
+                                    $&quot;Wsp&#243;łczynnik jakości: {QualityScore:F2}\n&quot; +
+                                    $&quot;Ocena (0-5): {Rating}\n&quot; +
+                                    $&quot;Użyty słownik: {UsedDictionary}&quot;;
+
+                                if (ValidWords &gt; 0)
+                                {
+                                    result += &quot;\n\nPoprawne słowa: &quot; + string.Join(&quot;, &quot;, ValidWordsList);
+                                }
+
+                                if (InvalidWords &gt; 0)
+                                {
+                                    result += &quot;\n\nNiepoprawne słowa:&quot;;
+                                    foreach (var word in InvalidWordsList)
+                                    {
+                                        result += $&quot;\n- {word}&quot;;
+                                        if (Suggestions.ContainsKey(word) &amp;&amp; Suggestions[word].Any())
+                                        {
+                                            result += $&quot; (sugestie: {string.Join(&quot;, &quot;, Suggestions[word])})&quot;;
+                                        }
+                                    }
+                                }
+
+                                return result;
+                            }
+                        }
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </section>
     <section class="slide" style="background-color:black">
         <figure>
             <img class="cover" src="pictures/76.png" alt="blog">
